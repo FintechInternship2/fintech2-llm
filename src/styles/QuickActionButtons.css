@@ -1,0 +1,59 @@
+.quick-action-buttons {
+    margin: 20px 0;
+  }
+  
+  .quick-action-title {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .quick-action-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+  }
+  
+  .quick-action-button {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quick-action-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .quick-action-icon img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .quick-action-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .quick-action-text strong {
+    font-size: 14px;
+  }
+  
+  .quick-action-text span {
+    font-size: 12px;
+    color: #888;
+  }
+  
