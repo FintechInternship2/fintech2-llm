@@ -1,3 +1,4 @@
+// ActionProvider.js
 import { sendMessageToChatbot } from '../api/chatbot';
 
 class ActionProvider {
@@ -11,7 +12,7 @@ class ActionProvider {
 
   handleHello = async () => {
     const message = "Hello";
-    const botResponse = await sendMessageToChatbot(message);
+    const botResponse = await sendMessageToChatbot([message]);
 
     const responseMessage = this.createChatBotMessage(botResponse);
     this.setState(prev => ({
@@ -21,7 +22,7 @@ class ActionProvider {
   };
 
   handleMessage = async (message) => {
-    const botResponse = await sendMessageToChatbot(message);
+    const botResponse = await sendMessageToChatbot([message]);
 
     const responseMessage = this.createChatBotMessage(botResponse);
     this.setState(prev => ({
@@ -32,3 +33,4 @@ class ActionProvider {
 }
 
 export default ActionProvider;
+

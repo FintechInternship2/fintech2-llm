@@ -7,32 +7,22 @@ import '../styles/IdentityVerification.css';
 export default function IdentityVerification() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false);
   const { authenticate } = useAuth();
 
   useEffect(() => {
+    // RecaptchaVerifier 초기화
     if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier("recaptcha-container", {
-        size: "normal",
-        callback: (response) => {
-          setRecaptchaVerified(true);
-        },
-        'expired-callback': () => {
-          setRecaptchaVerified(false);
-          alert("reCAPTCHA expired. Please complete the reCAPTCHA again.");
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
+        'size': 'invisible',
+        'callback': (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          onSignInSubmit();
         }
-      }, auth);
-      window.recaptchaVerifier.render().then(widgetId => {
-        window.recaptchaWidgetId = widgetId;
       });
     }
   }, []);
 
-  const handleSendCode = () => {
-    if (!recaptchaVerified) {
-      alert("Please complete the reCAPTCHA.");
-      return;
-    }
+  const onSignInSubmit = () => {
     auth.languageCode = "ko"; // 한국어로 설정
     const appVerifier = window.recaptchaVerifier;
     const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
@@ -45,6 +35,10 @@ export default function IdentityVerification() {
         console.log("SMS FAILED", error);
         alert("Failed to send OTP. Please try again.");
       });
+  };
+
+  const handleSendCode = () => {
+    onSignInSubmit();
   };
 
   const handleVerifyCode = () => {

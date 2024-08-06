@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { sendMessageToChatbot } from '../api/chatbot';
 import QuickActionButtons from './QuickActionButtons';
 import sendButtonIcon from '../assets/icons/send_button.svg';
 import chatbotIcon from '../assets/icons/chatbot_icon.svg';
 import userIcon from '../assets/icons/default_image_icon.svg';
-import checkOutlineIcon from '../assets/icons/check_outline.svg';
+import chattingStartIcon from '../assets/icons/chatting_start_icon.svg';
+import previousRequestIcon from '../assets/icons/previous_request_icon.svg';
+import objectionDataStorageIcon from '../assets/icons/objection_data_storage_icon.svg';
+import uploadIcon from '../assets/icons/upload_icon.svg';
 import '../styles/ChatWindow.css';
 
 const ChatWindow = () => {
@@ -13,12 +17,13 @@ const ChatWindow = () => {
       type: 'bot',
       text: '',
       fullText: '안녕하세요 번개처럼 빠르게 도와드리는 챗봇입니다. 소개멘트를 작성해주세요 소개멘트를 작성해주세요 소개멘트를 작성해주세요. 지금정지해제를 위해서는 이의제기 신청서, 신분증 사본...',
-      typing: true, // 타이핑 효과를 위한 플래그
+      typing: true,
       name: 'ChatBot'
     }
   ]);
-  const [completedActions, setCompletedActions] = useState([]); // 각 버튼의 상태를 관리하는 배열
+  const [completedActions, setCompletedActions] = useState([]);
   const typingIntervalRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const lastMessageIndex = messages.length - 1;
@@ -45,7 +50,7 @@ const ChatWindow = () => {
           }
           return newMessages;
         });
-      }, 100); // 타이핑 속도 조절
+      }, 100);
     }
 
     return () => clearInterval(typingIntervalRef.current);
@@ -57,14 +62,14 @@ const ChatWindow = () => {
     { title: '본인서명', subtitle: '정부24에서', path: '/signature-verification', key: 'signatureVerification' },
     { title: '추가자료제출', subtitle: '내용', path: '/additional-data', key: 'additionalData' },
   ];
-  
 
   const handleSendMessage = async (messageText) => {
+    if (messageText.trim() === '') return;
     const userMessage = { type: 'user', text: messageText, fullText: messageText, typing: false, name: 'User' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const response = await sendMessageToChatbot([...messages, userMessage]); // 배열로 전달
+      const response = await sendMessageToChatbot([...messages, userMessage]);
       const botMessage = {
         type: 'bot',
         text: '',
@@ -81,12 +86,23 @@ const ChatWindow = () => {
   const handleActionClick = (actionTitle) => {
     setCompletedActions((prevActions) => {
       if (prevActions.includes(actionTitle)) {
-        return prevActions.filter(title => title !== actionTitle); // 클릭된 버튼의 상태 해제
+        return prevActions.filter(title => title !== actionTitle);
       } else {
         handleSendMessage(actionTitle);
-        return [...prevActions, actionTitle]; // 클릭된 버튼의 상태 설정
+        return [...prevActions, actionTitle];
       }
     });
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log('Uploaded file:', file);
+    }
   };
 
   return (
@@ -117,9 +133,21 @@ const ChatWindow = () => {
         <QuickActionButtons actions={quickActions} />
       </div>
       <div className="chat-footer">
-        <input 
-          type="text" 
-          placeholder="궁금하신 내용을 입력해주세요." 
+        <input
+          type="file"
+          id="fileUpload"
+          style={{ display: 'none' }}
+          onChange={handleFileUpload}
+        />
+        <button
+          onClick={() => document.getElementById('fileUpload').click()}
+          className="file-upload-button"
+        >
+          <img src={uploadIcon} alt="Upload Icon" />
+        </button>
+        <input
+          type="text"
+          placeholder="궁금하신 내용을 입력해주세요."
           onKeyPress={(event) => {
             if (event.key === 'Enter') {
               handleSendMessage(event.target.value);
@@ -127,14 +155,28 @@ const ChatWindow = () => {
             }
           }}
         />
-        <button 
+        <button
           onClick={() => {
-            const input = document.querySelector('.chat-footer input');
+            const input = document.querySelector('.chat-footer input[type="text"]');
             handleSendMessage(input.value);
             input.value = '';
           }}
         >
           <img src={sendButtonIcon} alt="Send Icon" />
+        </button>
+      </div>
+      <div className="chat-nav">
+        <button onClick={() => handleNavigation('/objection-storage')}>
+          <img src={objectionDataStorageIcon} alt="보관함" />
+          <span>보관함</span>
+        </button>
+        <button>
+          <img src={chattingStartIcon} alt="채팅" />
+          <span>채팅</span>
+        </button>
+        <button onClick={() => handleNavigation('/previous-request')}>
+          <img src={previousRequestIcon} alt="이전 내역" />
+          <span>이전 내역</span>
         </button>
       </div>
     </div>

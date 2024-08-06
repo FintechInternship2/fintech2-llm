@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CHATBOT_URL = "http://localhost:8000/chat";
+const CHATBOT_URL = "http://localhost:8000/chat/";
 
 export const sendMessageToChatbot = async (messages) => {
   try {
