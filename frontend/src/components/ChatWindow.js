@@ -4,6 +4,7 @@ import QuickActionButtons from './QuickActionButtons';
 import sendButtonIcon from '../assets/icons/send_button.svg';
 import chatbotIcon from '../assets/icons/chatbot_icon.svg';
 import userIcon from '../assets/icons/default_image_icon.svg';
+import checkOutlineIcon from '../assets/icons/check_outline.svg';
 import '../styles/ChatWindow.css';
 
 const ChatWindow = () => {
@@ -51,15 +52,12 @@ const ChatWindow = () => {
   }, [messages]);
 
   const quickActions = [
-    { title: '이의제기신청서', subtitle: '이의제기' },
-    { title: '신분증 사본(필수)', subtitle: '신분증 발급' },
-    { title: '본인서명', subtitle: '정부24에서' },
-    { title: '정보제공2', subtitle: '내용' },
-    { title: '정보제공3', subtitle: '내용' },
-    { title: '정보제공4', subtitle: '내용' },
-    { title: '정보제공5', subtitle: '내용' },
-    { title: '이렇게까지만함돠', subtitle: '내용' }
+    { title: '이의제기신청서', subtitle: '이의제기', path: '/objection', key: 'objection' },
+    { title: '신분증 사본(필수)', subtitle: '신분증 발급', path: '/id-copy', key: 'idCopy' },
+    { title: '본인서명', subtitle: '정부24에서', path: '/signature-verification', key: 'signatureVerification' },
+    { title: '추가자료제출', subtitle: '내용', path: '/additional-data', key: 'additionalData' },
   ];
+  
 
   const handleSendMessage = async (messageText) => {
     const userMessage = { type: 'user', text: messageText, fullText: messageText, typing: false, name: 'User' };
@@ -116,7 +114,7 @@ const ChatWindow = () => {
             </div>
           </div>
         ))}
-        <QuickActionButtons actions={quickActions} completedActions={completedActions} onActionClick={handleActionClick} />
+        <QuickActionButtons actions={quickActions} />
       </div>
       <div className="chat-footer">
         <input 

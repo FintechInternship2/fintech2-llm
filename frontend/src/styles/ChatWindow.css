@@ -1,159 +1,158 @@
 /* 채팅 윈도우의 전체 컨테이너 */
 .chat-window {
-    width: 375px; /* 너비를 375px로 설정 */
-    height: 700px; /* 높이를 700px로 설정 */
-    margin: 0 auto; /* 자동 중앙 정렬 */
-    border: 1px solid #e0e0e0; /* 1px 실선 경계와 색상 설정 */
-    border-radius: 10px; /* 10px 둥근 모서리 설정 */
-    overflow: hidden; /* 넘치는 콘텐츠 숨김 */
-    display: flex; /* flex 박스 모델 사용 */
-    flex-direction: column; /* 세로 방향 정렬 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 폰트 패밀리 설정 */
-  }
-  
-  /* 채팅 윈도우의 헤더 */
-  .chat-header {
-    background-color: #fff; /* 배경 색상을 흰색으로 설정 */
-    padding: 10px; /* 내부 여백을 10px로 설정 */
-    display: flex; /* flex 박스 모델 사용 */
-    align-items: center; /* 수직 방향 중앙 정렬 */
-    border-bottom: 1px solid #e0e0e0; /* 하단 경계선 설정 */
-  }
-  
-  /* 채팅 헤더 내 아이콘 이미지 */
-  .chat-header-icon img {
-    width: 40px; /* 너비를 40px로 설정 */
-    height: 40px; /* 높이를 40px로 설정 */
-  }
-  
-  /* 채팅 헤더 내 제목 컨테이너 */
-  .chat-header-title {
-    margin-left: 10px; /* 왼쪽 여백을 10px로 설정 */
-  }
-  
-  /* 채팅 헤더 내 제목 텍스트 */
-  .chat-header-title h1 {
-    margin: 0; /* 모든 방향 여백을 0으로 설정 */
-    font-size: 18px; /* 폰트 크기를 18px로 설정 */
-  }
-  
-  /* 채팅 헤더 내 부제목 텍스트 */
-  .chat-header-title span {
-    font-size: 12px; /* 폰트 크기를 12px로 설정 */
-    color: #888; /* 텍스트 색상을 #888로 설정 */
-  }
-  
-  /* 채팅 메시지가 표시되는 본문 영역 */
-  .chat-body {
-    flex: 1; /* 유연한 크기 조절 */
-    padding: 10px; /* 내부 여백을 10px로 설정 */
-    background-color: #f5f5f5; /* 배경 색상을 #f5f5f5로 설정 */
-    overflow-y: auto; /* 수직 방향 스크롤바 표시 */
-  }
-  
-  /* 개별 채팅 메시지 */
-  .chat-message {
-    display: flex; /* flex 박스 모델 사용 */
-    flex-direction: column; /* 세로 방향 정렬 */
-    margin-bottom: 15px; /* 하단 여백을 15px로 설정 */
-  }
-  
-  /* 봇 메시지 */
-  .chat-message.bot {
-    align-items: flex-start; /* 왼쪽 정렬 */
-    text-align: left; /* 텍스트 왼쪽 정렬 */
-  }
-  
-  /* 유저 메시지 */
-  .chat-message.user {
-    align-items: flex-end; /* 오른쪽 정렬 */
-    text-align: right; /* 텍스트 오른쪽 정렬 */
-  }
-  
-  /* 프로필 영역 */
-  .chat-message .profile {
-    display: flex; /* flex 박스 모델 사용 */
-    align-items: center; /* 수직 방향 중앙 정렬 */
-    margin-bottom: 5px; /* 하단 여백을 5px로 설정 */
-  }
-  
-  /* 프로필 이미지 */
-  .chat-message .profile .avatar img {
-    width: 36px; /* 너비를 36px로 설정 */
-    height: 36px; /* 높이를 36px로 설정 */
-    border-radius: 50%; /* 둥근 모서리 설정 */
-    margin-right: 10px; /* 오른쪽 여백을 10px로 설정 */
-  }
-  
-  /* 유저 메시지의 프로필 이미지 */
-  .chat-message.user .profile .avatar {
-    order: 2; /* 순서를 2로 설정하여 텍스트 뒤에 오도록 설정 */
-    margin-right: 0; /* 오른쪽 여백을 0으로 설정 */
-    margin-left: 10px; /* 왼쪽 여백을 10px로 설정 */
-  }
-  
-  /* 프로필 이름 */
-  .chat-message .profile .name {
-    font-size: 14px; /* 폰트 크기를 14px로 설정 */
-    color: #333; /* 텍스트 색상을 #333으로 설정 */
-  }
-  
-  /* 채팅 메시지 텍스트 */
+  width: 375px; /* 너비를 375px로 설정 */
+  height: 700px; /* 높이를 700px로 설정 */
+  margin: 0 auto; /* 자동 중앙 정렬 */
+  border: 1px solid #e0e0e0; /* 1px 실선 경계와 색상 설정 */
+  border-radius: 10px; /* 10px 둥근 모서리 설정 */
+  overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+  display: flex; /* flex 박스 모델 사용 */
+  flex-direction: column; /* 세로 방향 정렬 */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 폰트 패밀리 설정 */
+}
+
+/* 채팅 윈도우의 헤더 */
+.chat-header {
+  background-color: #fff; /* 배경 색상을 흰색으로 설정 */
+  padding: 10px; /* 내부 여백을 10px로 설정 */
+  display: flex; /* flex 박스 모델 사용 */
+  align-items: center; /* 수직 방향 중앙 정렬 */
+  border-bottom: 1px solid #e0e0e0; /* 하단 경계선 설정 */
+}
+
+/* 채팅 헤더 내 아이콘 이미지 */
+.chat-header-icon img {
+  width: 40px; /* 너비를 40px로 설정 */
+  height: 40px; /* 높이를 40px로 설정 */
+}
+
+/* 채팅 헤더 내 제목 컨테이너 */
+.chat-header-title {
+  margin-left: 10px; /* 왼쪽 여백을 10px로 설정 */
+}
+
+/* 채팅 헤더 내 제목 텍스트 */
+.chat-header-title h1 {
+  margin: 0; /* 모든 방향 여백을 0으로 설정 */
+  font-size: 18px; /* 폰트 크기를 18px로 설정 */
+}
+
+/* 채팅 헤더 내 부제목 텍스트 */
+.chat-header-title span {
+  font-size: 12px; /* 폰트 크기를 12px로 설정 */
+  color: #888; /* 텍스트 색상을 #888로 설정 */
+}
+
+/* 채팅 메시지가 표시되는 본문 영역 */
+.chat-body {
+  flex: 1; /* 유연한 크기 조절 */
+  padding: 10px; /* 내부 여백을 10px로 설정 */
+  background-color: #f5f5f5; /* 배경 색상을 #f5f5f5로 설정 */
+  overflow-y: auto; /* 수직 방향 스크롤바 표시 */
+}
+
+/* 개별 채팅 메시지 */
+.chat-message {
+  display: flex; /* flex 박스 모델 사용 */
+  flex-direction: column; /* 세로 방향 정렬 */
+  margin-bottom: 15px; /* 하단 여백을 15px로 설정 */
+}
+
+/* 봇 메시지 */
+.chat-message.bot {
+  align-items: flex-start; /* 왼쪽 정렬 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 유저 메시지 */
+.chat-message.user {
+  align-items: flex-end; /* 오른쪽 정렬 */
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+}
+
+/* 프로필 영역 */
+.chat-message .profile {
+  display: flex; /* flex 박스 모델 사용 */
+  align-items: center; /* 수직 방향 중앙 정렬 */
+  margin-bottom: 5px; /* 하단 여백을 5px로 설정 */
+}
+
+/* 프로필 이미지 */
+.chat-message .profile .avatar img {
+  width: 36px; /* 너비를 36px로 설정 */
+  height: 36px; /* 높이를 36px로 설정 */
+  border-radius: 50%; /* 둥근 모서리 설정 */
+  margin-right: 10px; /* 오른쪽 여백을 10px로 설정 */
+}
+
+/* 유저 메시지의 프로필 이미지 */
+.chat-message.user .profile .avatar {
+  order: 2; /* 순서를 2로 설정하여 텍스트 뒤에 오도록 설정 */
+  margin-right: 0; /* 오른쪽 여백을 0으로 설정 */
+  margin-left: 10px; /* 왼쪽 여백을 10px로 설정 */
+}
+
+/* 프로필 이름 */
+.chat-message .profile .name {
+  font-size: 14px; /* 폰트 크기를 14px로 설정 */
+  color: #333; /* 텍스트 색상을 #333으로 설정 */
+}
+
+/* 채팅 메시지 텍스트 */
 .chat-message .message {
-    background-color: #d1e7ff; /* 배경 색상을 #d1e7ff로 설정 */
-    padding: 0 10px; /* 상하 0px, 좌우 10px 여백 설정 */
-    border-radius: 10px; /* 둥근 모서리 설정 */
-    max-width: 90%; /* 최대 너비를 90%로 설정 */
-    margin: 0 10px; /* 양옆에 10px 여백 설정 */
-    line-height: 1.5; /* 줄 간격을 1.2로 설정 */
-  }
-  
-  /* 텍스트 요소의 여백 제거 */
-  .chat-message .message p {
-    margin: 5px; /* 모든 방향 여백을 0으로 설정 */
-    font-size: 14px; /* 채팅 내역들 폰트 크기 */
-  }
-  
-  
-  /* 유저 메시지 텍스트 */
-  .chat-message.user .message {
-    background-color: #c0e7ff; /* 배경 색상을 #c0e7ff로 설정 */
-  }
-  
-  /* 채팅 입력 영역 */
-  .chat-footer {
-    display: flex; /* flex 박스 모델 사용 */
-    padding: 10px; /* 내부 여백을 10px로 설정 */
-    background-color: #fff; /* 배경 색상을 흰색으로 설정 */
-    border-top: 1px solid #e0e0e0; /* 상단 경계선 설정 */
-  }
-  
-  /* 채팅 입력 필드 */
-  .chat-footer input {
-    flex: 1; /* 유연한 크기 조절 */
-    border: 1px solid #e0e0e0; /* 경계선 설정 */
-    border-radius: 5px; /* 둥근 모서리 설정 */
-    padding: 10px; /* 내부 여백을 10px로 설정 */
-    margin-right: 10px; /* 오른쪽 여백을 10px로 설정 */
-    font-size: 14px; /* 폰트 크기를 14px로 설정 */
-  }
-  
-  /* 채팅 전송 버튼 */
-  .chat-footer button {
-    background-color: #42b0c5; /* 배경 색상을 #42b0c5로 설정 */
-    border: none; /* 경계선 없음 */
-    border-radius: 5px; /* 둥근 모서리 설정 */
-    padding: 10px; /* 내부 여백을 10px로 설정 */
-    display: flex; /* flex 박스 모델 사용 */
-    align-items: center; /* 수직 방향 중앙 정렬 */
-    justify-content: center; /* 수평 방향 중앙 정렬 */
-    cursor: pointer; /* 포인터 커서로 설정 */
-  }
-  
-  /* 채팅 전송 버튼 내 아이콘 이미지 */
-  .chat-footer button img {
-    width: 20px; /* 너비를 20px로 설정 */
-    height: 20px; /* 높이를 20px로 설정 */
-    filter: invert(1); /* 이미지 색상을 반전 */
-  }
-  
+  background-color: #d1e7ff; /* 배경 색상을 #d1e7ff로 설정 */
+  padding: 0 10px; /* 상하 0px, 좌우 10px 여백 설정 */
+  border-radius: 10px; /* 둥근 모서리 설정 */
+  max-width: 90%; /* 최대 너비를 90%로 설정 */
+  margin: 0 10px; /* 양옆에 10px 여백 설정 */
+  line-height: 1.5; /* 줄 간격을 1.2로 설정 */
+}
+
+/* 텍스트 요소의 여백 제거 */
+.chat-message .message p {
+  margin: 5px; /* 모든 방향 여백을 0으로 설정 */
+  font-size: 14px; /* 채팅 내역들 폰트 크기 */
+}
+
+
+/* 유저 메시지 텍스트 */
+.chat-message.user .message {
+  background-color: #c0e7ff; /* 배경 색상을 #c0e7ff로 설정 */
+}
+
+/* 채팅 입력 영역 */
+.chat-footer {
+  display: flex; /* flex 박스 모델 사용 */
+  padding: 10px; /* 내부 여백을 10px로 설정 */
+  background-color: #fff; /* 배경 색상을 흰색으로 설정 */
+  border-top: 1px solid #e0e0e0; /* 상단 경계선 설정 */
+}
+
+/* 채팅 입력 필드 */
+.chat-footer input {
+  flex: 1; /* 유연한 크기 조절 */
+  border: 1px solid #e0e0e0; /* 경계선 설정 */
+  border-radius: 5px; /* 둥근 모서리 설정 */
+  padding: 10px; /* 내부 여백을 10px로 설정 */
+  margin-right: 10px; /* 오른쪽 여백을 10px로 설정 */
+  font-size: 14px; /* 폰트 크기를 14px로 설정 */
+}
+
+/* 채팅 전송 버튼 */
+.chat-footer button {
+  background-color: #42b0c5; /* 배경 색상을 #42b0c5로 설정 */
+  border: none; /* 경계선 없음 */
+  border-radius: 5px; /* 둥근 모서리 설정 */
+  padding: 10px; /* 내부 여백을 10px로 설정 */
+  display: flex; /* flex 박스 모델 사용 */
+  align-items: center; /* 수직 방향 중앙 정렬 */
+  justify-content: center; /* 수평 방향 중앙 정렬 */
+  cursor: pointer; /* 포인터 커서로 설정 */
+}
+
+/* 채팅 전송 버튼 내 아이콘 이미지 */
+.chat-footer button img {
+  width: 20px; /* 너비를 20px로 설정 */
+  height: 20px; /* 높이를 20px로 설정 */
+  filter: invert(1); /* 이미지 색상을 반전 */
+}

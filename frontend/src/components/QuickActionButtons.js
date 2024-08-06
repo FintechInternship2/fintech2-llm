@@ -1,9 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import checkFilledIcon from '../assets/icons/check_filled.svg';
 import checkOutlineIcon from '../assets/icons/check_outline.svg';
 import '../styles/QuickActionButtons.css';
 
-const QuickActionButtons = ({ actions, completedActions, onActionClick }) => {
+const QuickActionButtons = ({ actions }) => {
+  const navigate = useNavigate();
+  const { isAuthenticated, completedActions } = useAuth();
+
+  const handleActionClick = (path) => {
+    if (isAuthenticated) {
+      navigate(path);
+    } else {
+      navigate('/verify');
+    }
+  };
+
   return (
     <div className="quick-action-buttons">
       <span className="quick-action-title">⚡ 빠르게 지금제한 해제하기</span>
@@ -12,10 +25,10 @@ const QuickActionButtons = ({ actions, completedActions, onActionClick }) => {
           <div
             className="quick-action-button"
             key={index}
-            onClick={() => onActionClick(action.title)}
+            onClick={() => handleActionClick(action.path)}
           >
             <div className="quick-action-icon">
-              <img src={completedActions.includes(action.title) ? checkFilledIcon : checkOutlineIcon} alt="Check Icon" />
+              <img src={completedActions[action.key] ? checkFilledIcon : checkOutlineIcon} alt="Check Icon" />
             </div>
             <div className="quick-action-text">
               <strong>{action.title}</strong>
