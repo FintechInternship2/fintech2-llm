@@ -7,6 +7,8 @@ import ObjectionForm from './components/ObjectionForm';
 import IDCopyPage from './components/IDCopyPage';
 import SignatureVerificationPage from './components/SignatureVerificationPage';
 import AdditionalDataPage from './components/AdditionalDataPage';
+import ObjectionStoragePage from './components/ObjectionStoragePage';
+import PreviousRequestPage from './components/PreviousRequestPage';
 
 const RequireAuth = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -24,6 +26,8 @@ function App() {
           <Route path="/id-copy" element={<RequireAuth><IDCopyPage /></RequireAuth>} />
           <Route path="/signature-verification" element={<RequireAuth><SignatureVerificationPage /></RequireAuth>} />
           <Route path="/additional-data" element={<RequireAuth><AdditionalDataPage /></RequireAuth>} />
+          <Route path="/objection-data-storage" element={<RequireAuth><ObjectionStoragePage /></RequireAuth>} />
+          <Route path="/previous-request" element={<RequireAuth><PreviousRequestPage /></RequireAuth>} />
         </Routes>
       </Router>
     </AuthProvider>

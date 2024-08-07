@@ -1,76 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { auth } from "../firebase";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import '../styles/IdentityVerification.css';
 
 export default function IdentityVerification() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false);
   const { authenticate } = useAuth();
-
-  useEffect(() => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier("recaptcha-container", {
-        size: "normal",
-        callback: (response) => {
-          setRecaptchaVerified(true);
-        },
-        'expired-callback': () => {
-          setRecaptchaVerified(false);
-          alert("reCAPTCHA expired. Please complete the reCAPTCHA again.");
-        }
-      }, auth);
-      window.recaptchaVerifier.render().then(widgetId => {
-        window.recaptchaWidgetId = widgetId;
-      });
-    }
-  }, []);
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleSendCode = () => {
-    if (!recaptchaVerified) {
-      alert("Please complete the reCAPTCHA.");
+    if (!phoneNumber) {
+      alert("전화번호를 입력해주세요.");
       return;
     }
-    auth.languageCode = "ko"; // 한국어로 설정
-    const appVerifier = window.recaptchaVerifier;
-    const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-    signInWithPhoneNumber(auth, formattedPhoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP code sent to your phone.");
-      })
-      .catch((error) => {
-        console.log("SMS FAILED", error);
-        alert("Failed to send OTP. Please try again.");
-      });
+    alert("OTP 코드가 전송되었습니다. (임의의 6자리 숫자를 입력하세요)");
   };
 
   const handleVerifyCode = () => {
-    const code = otp; // OTP 입력 값
-    if (window.confirmationResult) {
-      window.confirmationResult.confirm(code)
-        .then((result) => {
-          const user = result.user;
-          console.log("User signed in successfully", user);
-          alert("User signed in successfully.");
-          authenticate(); // 본인인증 완료 처리
-        })
-        .catch((error) => {
-          console.error("Error signing in", error);
-          alert("Failed to verify OTP. Please try again.");
-        });
+    if (otp.length === 6) {
+      alert("본인인증이 완료되었습니다.");
+      authenticate(); // 본인인증 완료 처리
+      navigate('/'); // 본인인증 후 메인 화면으로 이동
     } else {
-      alert("Please request the OTP first.");
+      alert("유효한 6자리 OTP 코드를 입력해주세요.");
     }
-  };
-
-  const formatPhoneNumber = (phoneNumber) => {
-    if (phoneNumber.startsWith("0")) {
-      return "+82" + phoneNumber.slice(1);
-    }
-    return phoneNumber;
   };
 
   return (
@@ -82,7 +36,6 @@ export default function IdentityVerification() {
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
       />
-      <div id="recaptcha-container"></div>
       <button onClick={handleSendCode} id="sign-in-button">코드 전송</button>
       <input
         type="text"

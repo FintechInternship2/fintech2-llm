@@ -5,13 +5,13 @@ import checkFilledIcon from '../assets/icons/check_filled.svg';
 import checkOutlineIcon from '../assets/icons/check_outline.svg';
 import '../styles/QuickActionButtons.css';
 
-const QuickActionButtons = ({ actions }) => {
-  const navigate = useNavigate();
+const QuickActionButtons = ({ actions, onActionClick }) => {
   const { isAuthenticated, completedActions } = useAuth();
+  const navigate = useNavigate();
 
-  const handleActionClick = (path) => {
+  const handleActionClick = (message, path) => {
     if (isAuthenticated) {
-      navigate(path);
+      onActionClick(message, path);
     } else {
       navigate('/verify');
     }
@@ -19,13 +19,13 @@ const QuickActionButtons = ({ actions }) => {
 
   return (
     <div className="quick-action-buttons">
-      <span className="quick-action-title">⚡ 빠르게 지금제한 해제하기</span>
+      <span className="quick-action-title">⚡ 빠르게 지급제한 해제하기</span>
       <div className="quick-action-slider">
         {actions.map((action, index) => (
           <div
             className="quick-action-button"
             key={index}
-            onClick={() => handleActionClick(action.path)}
+            onClick={() => handleActionClick(action.message, action.path)}
           >
             <div className="quick-action-icon">
               <img src={completedActions[action.key] ? checkFilledIcon : checkOutlineIcon} alt="Check Icon" />
