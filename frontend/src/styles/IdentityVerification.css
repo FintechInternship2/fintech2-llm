@@ -7,33 +7,47 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center align items */
+  justify-content: center; /* Center align items vertically */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .identity-verification input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .identity-verification button {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .identity-verification button:hover {
-    background-color: #45a049;
-  }
-  
-  #recaptcha-container {
-    margin-top: 20px;
-  }
-  
+}
+
+.identity-verification input {
+  width: 80%;
+  padding: 12px; /* Slightly larger padding */
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px; /* Increase font size for better readability */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+  transition: border 0.3s ease; /* Smooth transition for border */
+}
+
+.identity-verification input:focus {
+  border: 1px solid #4CAF50; /* Change border color on focus */
+  outline: none; /* Remove default outline */
+}
+
+.identity-verification button {
+  width: 80%;
+  padding: 12px; /* Slightly larger padding */
+  margin: 10px 0;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px; /* Increase font size for better readability */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+.identity-verification button:hover {
+  background-color: #45a049;
+}
+
+#recaptcha-container {
+  margin-top: 20px;
+}
