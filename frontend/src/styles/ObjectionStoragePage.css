@@ -1,0 +1,142 @@
+/* 전체 페이지 스타일 */
+.objection-storage-page {
+  width: 375px;
+  height: 630px;
+  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 헤더 스타일 */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* 컨테이너 스타일 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+/* 진행 상태 섹션 스타일 */
+.progress-section {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center; /* 진행 상태 섹션의 텍스트 가운데 정렬 */
+}
+
+.progress-section h2 {
+  font-size: 20px;
+  margin: 0 0 10px 0;
+}
+
+.subtext {
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-step {
+  width: 20px;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+}
+
+.progress-step.active {
+  background-color: #4caf50;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info-item {
+  text-align: center;
+}
+
+.info-item h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.info-item p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* 나의 서류 섹션 스타일 */
+.documents-section {
+  width: 100%;
+}
+
+.documents-section h3 {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+}
+
+.documents-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.documents-section li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.action-button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.status {
+  color: green;
+  margin-left: 10px;
+  flex-shrink: 0; /* 상태 텍스트의 위치 고정 */
+}
+
+/* 문서 제목과 버튼을 같은 높이로 정렬 */
+.documents-section li .title {
+  flex-grow: 1; /* 남은 공간을 채우도록 설정 */
+  margin-right: 10px; /* 버튼과의 간격 설정 */
+}

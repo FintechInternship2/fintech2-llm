@@ -29,7 +29,6 @@ export default function IdentityVerification() {
 
   return (
     <div className="identity-verification">
-      <h1>본인인증 페이지</h1>
       <input
         type="text"
         placeholder="전화번호 입력"

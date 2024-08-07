@@ -1,7 +1,7 @@
 /* 채팅 윈도우의 전체 컨테이너 */
 .chat-window {
   width: 375px;
-  height: 700px;
+  height: 630px;
   margin: 0 auto;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
