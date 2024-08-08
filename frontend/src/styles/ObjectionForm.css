@@ -1,145 +1,138 @@
 .app-container {
-    width: 375px;
-    height: 630px;
-    margin: 0 auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .header {
-    background-color: white;
-    text-align: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .form-container {
-    padding: 20px;
-    background-color: white;
-    flex: 1;
-    overflow-y: auto;
-  }
-  
-  .footer {
-    background-color: white;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .footer-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .footer-button:hover {
-    background-color: #45a049;
-  }
-  
-  .objection-form h2 {
-    margin-top: 20px;
-    font-size: 1.2em;
-  }
-  
-  .objection-form label {
-    display: block;
-    margin-bottom: 15px;
-    font-size: 0.9em;
-  }
-  
-  .required {
-    color: red;
-  }
-  
-  .gray-background {
-    background-color: #f0f0f0;
-  }
-  
-  .objection-form .phone-number input[type="tel"] {
-    width: calc(100% - 10px);
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9em;
-  }
-  
-  .objection-form input[type="text"],
-  .objection-form input[type="email"],
-  .objection-form input[type="date"],
-  .objection-form textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9em;
-  }
-  
-  .objection-form input[type="text"]::placeholder,
-  .objection-form input[type="tel"]::placeholder {
-    color: #999;
-    font-size: 0.9em;
-  }
-  
-  .address-label .address-input {
-    display: flex;
-    align-items: center;
-  }
-  
-  .address-input input {
-    flex: 1;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9em;
-  }
-  
-  .address-input button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: 5px;
-    padding: 0;
-  }
-  
-  .address-input img {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    font-size: 0.9em;
-  }
-  
-  .checkbox-container input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .submit-button:hover {
-    background-color: #45a049;
-  }
-  
+  width: 375px;
+  height: 630px;
+  margin: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.header-title {
+  font-size: 17px;
+  font-family: Regular;
+  color: #525252;
+}
+
+.form-container {
+  padding: 20px;
+  background-color: white;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  background-color: white;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+.footer-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.footer-button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.footer-button:hover:enabled {
+  background-color: #45a049;
+}
+
+.objection-form {
+  width: 100%;
+}
+
+.objection-form h2 {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.objection-form label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 1em;
+}
+
+.required {
+  color: red;
+  margin-right: 5px;
+}
+
+.gray-background {
+  background-color: #f0f0f0;
+}
+
+.objection-form input,
+.objection-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.objection-form input[type="text"]::placeholder,
+.objection-form input[type="tel"]::placeholder {
+  color: #999;
+  font-size: 1em;
+}
+
+.address-label .address-input {
+  display: flex;
+  align-items: center;
+}
+
+.address-input input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 1em;
+}
+
+.address-input button {
+  width: 50px;
+  background: none;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-input img {
+  width: 24px;
+  height: 24px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 10px;
+}

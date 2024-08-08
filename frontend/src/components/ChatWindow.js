@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 import
+import { useNavigate } from 'react-router-dom';
 import QuickActionButtons from './QuickActionButtons';
+import BeatLoader from 'react-spinners/BeatLoader'; // Import the BeatLoader
 import sendButtonIcon from '../assets/icons/send_button.svg';
-import uploadIcon from '../assets/icons/upload_icon.svg'; // 파일 업로드 아이콘 추가
-import objectionDataStorageIcon from '../assets/icons/objection_data_storage_icon.svg'; // 보관함 아이콘
-import previousRequestIcon from '../assets/icons/previous_request_icon.svg'; // 이전 내역 아이콘
-import chattingStartIcon from '../assets/icons/chatting_start_icon.svg'; // 채팅 시작 아이콘
+import uploadIcon from '../assets/icons/upload_icon.svg';
+import objectionDataStorageIcon from '../assets/icons/objection_data_storage_icon.svg';
+import previousRequestIcon from '../assets/icons/previous_request_icon.svg';
+import chattingStartIcon from '../assets/icons/chatting_start_icon.svg';
 import '../styles/ChatWindow.css';
-import { useAuth } from '../AuthContext'; // AuthContext에서 상태를 가져옴
+import { useAuth } from '../AuthContext';
+import { sendMessageToChatbot } from '../api/chatbot';
 
 const ChatWindow = () => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
   const initialMessage = [];
+
+  const [loading, setLoading] = useState(false);
 
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem('chatMessages');
@@ -28,7 +32,22 @@ const ChatWindow = () => {
     return savedState ? JSON.parse(savedState) : false;
   });
 
-  const { isAuthenticated, completedActions, resetAction } = useAuth(); // AuthContext에서 상태를 가져옴
+  const [hasShownIDCopyMessage, setHasShownIDCopyMessage] = useState(() => {
+    const savedState = localStorage.getItem('hasShownIDCopyMessage');
+    return savedState ? JSON.parse(savedState) : false;
+  });
+
+  const [hasShownSignatureMessage, setHasShownSignatureMessage] = useState(() => {
+    const savedState = localStorage.getItem('hasShownSignatureMessage');
+    return savedState ? JSON.parse(savedState) : false;
+  });
+
+  const [hasShownAdditionalDataMessage, setHasShownAdditionalDataMessage] = useState(() => {
+    const savedState = localStorage.getItem('hasShownAdditionalDataMessage');
+    return savedState ? JSON.parse(savedState) : false;
+  });
+
+  const { isAuthenticated, completedActions, resetAction } = useAuth();
   const typingIntervalRef = useRef(null);
 
   useEffect(() => {
@@ -44,13 +63,25 @@ const ChatWindow = () => {
   }, [hasShownAuthMessage]);
 
   useEffect(() => {
+    localStorage.setItem('hasShownIDCopyMessage', JSON.stringify(hasShownIDCopyMessage));
+  }, [hasShownIDCopyMessage]);
+
+  useEffect(() => {
+    localStorage.setItem('hasShownSignatureMessage', JSON.stringify(hasShownSignatureMessage));
+  }, [hasShownSignatureMessage]);
+
+  useEffect(() => {
+    localStorage.setItem('hasShownAdditionalDataMessage', JSON.stringify(hasShownAdditionalDataMessage));
+  }, [hasShownAdditionalDataMessage]);
+
+  useEffect(() => {
     if (completedActions.objection && !hasShownObjectionMessage) {
       setMessages((prevMessages) => [
         ...prevMessages,
         {
           type: 'bot',
           text: '',
-          fullText: '이의제기 신청서가 잘 제출됐습니다! 다른 서류들도 제출해주세요.',
+          fullText: '이의제기 신청서가 잘 제출됐습니다!',
           typing: true,
           name: 'ChatBot'
         }
@@ -74,6 +105,59 @@ const ChatWindow = () => {
       setHasShownAuthMessage(true);
     }
   }, [isAuthenticated, hasShownAuthMessage]);
+
+  useEffect(() => {
+    if (completedActions.idCopy && !hasShownIDCopyMessage) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          type: 'bot',
+          text: '',
+          fullText: '신분증 사본 제출이 완료되었습니다!',
+          typing: true,
+          name: 'ChatBot'
+        }
+      ]);
+      setHasShownIDCopyMessage(true);
+    }
+  }, [completedActions.idCopy, hasShownIDCopyMessage]);
+
+  useEffect(() => {
+    if (completedActions.signatureVerification && !hasShownSignatureMessage) {
+      setMessages((prevMessages) => {
+        if (!prevMessages.find(msg => msg.fullText === '본인서명사실확인서 제출이 완료되었습니다!')) {
+          return [
+            ...prevMessages,
+            {
+              type: 'bot',
+              text: '',
+              fullText: '본인서명사실확인서 제출이 완료되었습니다!',
+              typing: true,
+              name: 'ChatBot'
+            }
+          ];
+        }
+        return prevMessages;
+      });
+      setHasShownSignatureMessage(true);
+    }
+  }, [completedActions.signatureVerification, hasShownSignatureMessage]);
+
+  useEffect(() => {
+    if (completedActions.additionalData && !hasShownAdditionalDataMessage) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          type: 'bot',
+          text: '',
+          fullText: '추가 자료가 성공적으로 업로드되었습니다!',
+          typing: true,
+          name: 'ChatBot'
+        }
+      ]);
+      setHasShownAdditionalDataMessage(true);
+    }
+  }, [completedActions.additionalData, hasShownAdditionalDataMessage]);
 
   useEffect(() => {
     const lastMessageIndex = messages.length - 1;
@@ -100,7 +184,7 @@ const ChatWindow = () => {
           }
           return newMessages;
         });
-      }, 100); // 타이핑 속도 조절
+      }, 50); // 타이핑 속도 조절
     }
 
     return () => clearInterval(typingIntervalRef.current);
@@ -126,9 +210,15 @@ const ChatWindow = () => {
     localStorage.removeItem('chatMessages');
     localStorage.removeItem('hasShownObjectionMessage');
     localStorage.removeItem('hasShownAuthMessage');
+    localStorage.removeItem('hasShownIDCopyMessage');
+    localStorage.removeItem('hasShownSignatureMessage');
+    localStorage.removeItem('hasShownAdditionalDataMessage');
     setMessages(initialMessage);
     setHasShownObjectionMessage(false);
     setHasShownAuthMessage(false);
+    setHasShownIDCopyMessage(false);
+    setHasShownSignatureMessage(false);
+    setHasShownAdditionalDataMessage(false);
   };
 
   const handleFileUpload = (event) => {
@@ -136,6 +226,22 @@ const ChatWindow = () => {
     if (file) {
       const userMessage = { type: 'user', text: `파일 업로드: ${file.name}`, fullText: `파일 업로드: ${file.name}`, typing: false, name: 'User' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
+    }
+  };
+
+  const handleSendMessage = async (message) => {
+    const userMessage = { type: 'user', text: message, fullText: message, typing: false, name: 'User' };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setLoading(true);
+
+    try {
+      const botResponse = await sendMessageToChatbot(message);
+      const botMessage = { type: 'bot', text: '', fullText: botResponse, typing: true, name: 'ChatBot' };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      setLoading(false); // Ensure loading is set to false after the response is received
     }
   };
 
@@ -164,10 +270,17 @@ const ChatWindow = () => {
             </div>
           </div>
         ))}
-        <button onClick={() => resetAction('objection')}>이의제기신청서 리셋</button>
+        {loading && (
+          <div className="chat-message bot">
+            <div className="message">
+              <BeatLoader color="#000" loading={true} size={10} margin={2} />
+            </div>
+          </div>
+        )}
+        {/* <button onClick={() => resetAction('objection')}>이의제기신청서 리셋</button>
         <button onClick={() => resetAction('idCopy')}>신분증 리셋</button>
         <button onClick={() => resetAction('signatureVerification')}>본인서명 리셋</button>
-        <button onClick={() => resetAction('additionalData')}>추가자료 리셋</button>
+        <button onClick={() => resetAction('additionalData')}>추가자료 리셋</button> */}
       </div>
       <div className="chat-footer">
         <label htmlFor="file-upload" className="file-upload-label">
@@ -184,7 +297,7 @@ const ChatWindow = () => {
           placeholder="궁금하신 내용을 입력해주세요." 
           onKeyPress={(event) => {
             if (event.key === 'Enter') {
-              handleActionClick(event.target.value);
+              handleSendMessage(event.target.value);
               event.target.value = '';
             }
           }}
@@ -192,13 +305,13 @@ const ChatWindow = () => {
         <button 
           onClick={() => {
             const input = document.querySelector('.chat-footer input[type="text"]');
-            handleActionClick(input.value);
+            handleSendMessage(input.value);
             input.value = '';
           }}
         >
           <img src={sendButtonIcon} alt="Send Icon" />
         </button>
-        <button onClick={handleResetMessages}>메시지 초기화</button>
+         {/* <button onClick={handleResetMessages}>메시지 초기화</button> */}
       </div>
       <div className="navigation-bar">
         <button onClick={() => navigate('/objection-data-storage')}>

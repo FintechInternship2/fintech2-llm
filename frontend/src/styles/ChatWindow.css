@@ -97,6 +97,28 @@
   border-top: 1px solid #e0e0e0;
 }
 
+.file-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #42b0c5;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.file-upload-label img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
+}
+
+.chat-footer input[type="file"] {
+  display: none;
+}
+
 /* 채팅 입력 필드 */
 .chat-footer input {
   flex: 1;

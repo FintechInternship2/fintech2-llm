@@ -4,7 +4,7 @@ import addressLookupIcon from '../assets/icons/address_lookup_icon.svg'; // 주�
 import { useAuth } from '../AuthContext'; // AuthContext 파일의 실제 경로를 사용하세요
 import { useNavigate } from 'react-router-dom'; // react-router-dom의 useNavigate 훅을 사용하여 페이지 이동
 
-const ObjectionForm = () => {
+const EditObjectionForm = () => {
   const { completeAction } = useAuth(); // AuthContext에서 completeAction 함수를 가져옴
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동
   const [formData, setFormData] = useState({
@@ -85,8 +85,8 @@ const ObjectionForm = () => {
       URL.revokeObjectURL(url);
 
       completeAction('objection');
-      alert('이의제기 신청서가 잘 제출됐습니다! 다른 서류들도 제출해주세요.');
-      navigate('/');
+      alert('이의제기 신청서가 수정되었습니다.');
+      navigate('/objection-data-storage');
     } else {
       alert("모든 필드를 작성해 주세요.");
     }
@@ -179,11 +179,11 @@ const ObjectionForm = () => {
       </div>
       <div className="footer">
         <button type="button" onClick={handleNext} className="footer-button" disabled={!isPageComplete()}>
-          {currentPage < 3 ? '다음' : '작성완료'}
+          {currentPage < 3 ? '다음' : '수정완료'}
         </button>
       </div>
     </div>
   );
 };
 
-export default ObjectionForm;
+export default EditObjectionForm;

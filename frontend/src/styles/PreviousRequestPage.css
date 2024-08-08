@@ -1,0 +1,104 @@
+.previous-request-page {
+  width: 375px;
+  height: 650px;
+  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  font-size: 24px;
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
+  position: relative;
+  left: -6.5px; /* Adjust to center title with back button */
+}
+
+.spacer {
+  width: 24px; /* Adjust to match the width of the icon */
+}
+
+.status-header {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.status-subheader {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 20px;
+  font-size: 12px;
+  color: #888;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.status-item {
+  cursor: pointer;
+  text-align: center;
+  padding: 10px;
+}
+
+.status-item.active {
+  color: #000;
+  font-weight: bold;
+}
+
+.separator {
+  border: 0;
+  height: 2px;
+  background: #e0e0e0;
+  margin: 0;
+}
+
+.container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.request-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.request-status {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.request-details {
+  font-size: 14px;
+  color: #555;
+}
+
+.request-id {
+  font-size: 12px;
+  color: #999;
+}

@@ -1,27 +1,51 @@
-.signature-verification-page {
-    width: 375px;
-    height: 630px;
-    margin: 0 auto;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .file-upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-  }
-  
+/* 전체 페이지 스타일 */
+.upload-page {
+  width: 375px;
+  height: 700px;
+  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+}
 
-  
-  .file-upload-label input {
-    display: none;
-  }
-   
+/* 헤더 스타일 */
+.upload-page h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* 폼 스타일 */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+/* 파일 입력 스타일 */
+form input[type="file"] {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* 업로드 버튼 스타일 */
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #42b0c5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #3a9fb4;
+}
