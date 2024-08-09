@@ -1,51 +1,169 @@
-/* 전체 페이지 스타일 */
-.upload-page {
-  width: 375px;
-  height: 700px;
+.signature-verification-page {
+  width: 100%;
+  max-width: 375px;
+  height: 630px;
   margin: 0 auto;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
+  background-color: #fff;
 }
 
-/* 헤더 스타일 */
-.upload-page h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.sv-header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-/* 폼 스타일 */
-form {
+.sv-header-text {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  flex: 1;
+}
+
+.sv-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.sv-close-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 80%;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-/* 파일 입력 스타일 */
-form input[type="file"] {
-  margin-bottom: 20px;
+.sv-subheader h2 {
+  text-align: left;
+}
+
+.link-container {
+  width: 100%;
+  border: 1px solid #430197;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.link-container a {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 0;
+  background-color: white;
+  color: #430197;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
   font-size: 14px;
 }
 
-/* 업로드 버튼 스타일 */
-form button {
+.sv-file-name-box {
   width: 100%;
-  padding: 10px;
-  background-color: #42b0c5;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  height: 80px; /* Fixed height to match the upload box */
+  box-sizing: border-box;
+}
+
+.file-name {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #ff0000;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  color: #cc0000;
+}
+
+.sv-upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 350px;
+  height: 80px; /* Fixed height to ensure consistency */
+  border: 1px dashed #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.upload-box img {
+  width: 30px;
+  height: 30px;
+}
+
+.upload-box span {
+  font-size: 16px;
+  color: #888;
+}
+
+.file-info {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.sv-footer {
+  width: 95%;
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sv-submit-button {
+  width: 90%;
+  max-width: 350px;
+  height: 50px;
+  padding: 12px 0;
+  background-color: #7002FB;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
 }
 
-form button:hover {
-  background-color: #3a9fb4;
+.sv-submit-button:disabled {
+  background-color: #ccc;
 }

@@ -83,7 +83,7 @@ const ChatWindow = () => {
           text: '',
           fullText: '이의제기 신청서가 잘 제출됐습니다!',
           typing: true,
-          name: 'ChatBot'
+          name: 'ChatBot',
         }
       ]);
       setHasShownObjectionMessage(true);
@@ -99,7 +99,7 @@ const ChatWindow = () => {
           text: '',
           fullText: '본인인증이 완료되었습니다.',
           typing: true,
-          name: 'ChatBot'
+          name: 'ChatBot',
         }
       ]);
       setHasShownAuthMessage(true);
@@ -115,7 +115,7 @@ const ChatWindow = () => {
           text: '',
           fullText: '신분증 사본 제출이 완료되었습니다!',
           typing: true,
-          name: 'ChatBot'
+          name: 'ChatBot',
         }
       ]);
       setHasShownIDCopyMessage(true);
@@ -133,7 +133,7 @@ const ChatWindow = () => {
               text: '',
               fullText: '본인서명사실확인서 제출이 완료되었습니다!',
               typing: true,
-              name: 'ChatBot'
+              name: 'ChatBot',
             }
           ];
         }
@@ -152,7 +152,7 @@ const ChatWindow = () => {
           text: '',
           fullText: '추가 자료가 성공적으로 업로드되었습니다!',
           typing: true,
-          name: 'ChatBot'
+          name: 'ChatBot',
         }
       ]);
       setHasShownAdditionalDataMessage(true);
@@ -197,14 +197,22 @@ const ChatWindow = () => {
     { title: '추가자료제출', subtitle: '내용', path: '/additional-data', key: 'additionalData', message: '추가 자료 제출해줘' },
   ];
 
-  const handleActionClick = (message, path) => {
-    const userMessage = { type: 'user', text: message, fullText: message, typing: false, name: 'User' };
+  const handleActionClick = (message, path) => { 
+    const userMessage = { 
+        type: 'user', 
+        text: message, 
+        fullText: message, 
+        typing: false, 
+        name: 'User',
+        isUserSystemMessage: true // 은희꺼랑 합칠 때 시스템 메세지 css 다르게 주는거 확인하기 
+    };
     setMessages((prevMessages) => {
       const newMessages = [...prevMessages, userMessage];
       navigate(path);
       return newMessages;
     });
-  };
+};
+
 
   const handleResetMessages = () => {
     localStorage.removeItem('chatMessages');
@@ -264,12 +272,16 @@ const ChatWindow = () => {
         </div>
         <QuickActionButtons actions={quickActions} onActionClick={handleActionClick} />
         {messages.map((message, index) => (
-          <div key={index} className={`chat-message ${message.type}`}>
+          <div 
+            key={index} 
+            className={`chat-message ${message.type} ${message.isUserSystemMessage ? 'system-message' : ''}`}
+          >
             <div className="message">
               <p>{message.text}</p>
             </div>
           </div>
-        ))}
+         ))} {/*퀵액션부터 여기까지가 은희꺼랑 합칠때 봐야하는ㄴ 부분 시스템 메시지 */}
+
         {loading && (
           <div className="chat-message bot">
             <div className="message">
@@ -280,7 +292,7 @@ const ChatWindow = () => {
         {/* <button onClick={() => resetAction('objection')}>이의제기신청서 리셋</button>
         <button onClick={() => resetAction('idCopy')}>신분증 리셋</button>
         <button onClick={() => resetAction('signatureVerification')}>본인서명 리셋</button>
-        <button onClick={() => resetAction('additionalData')}>추가자료 리셋</button> */}
+        <button onClick={() => resetAction('additionalData')}>추가자료 리셋</button> 테스트하기 위해 각 자료 리셋하렴 주석풀기! */}
       </div>
       <div className="chat-footer">
         <label htmlFor="file-upload" className="file-upload-label">
@@ -311,7 +323,7 @@ const ChatWindow = () => {
         >
           <img src={sendButtonIcon} alt="Send Icon" />
         </button>
-         {/* <button onClick={handleResetMessages}>메시지 초기화</button> */}
+         {/* <button onClick={handleResetMessages}>메시지 초기화</button> 테스트하기 위해 메시지 초기화하려면 주석풀기!  */}
       </div>
       <div className="navigation-bar">
         <button onClick={() => navigate('/objection-data-storage')}>

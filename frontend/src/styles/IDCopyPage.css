@@ -1,27 +1,137 @@
 .idcopy-page {
-    width: 375px;
-    height: 630px;
-    margin: 0 auto;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .file-upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-  }
-  
+  width: 100%;
+  max-width: 375px;
+  height: 630px; /* Fixed height */
+  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
 
-  
-  .file-upload-label input {
-    display: none;
-  }
-  
+.idc-header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.idc-header-text {
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+}
+
+.idc-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.idc-close-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.form-content {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  align-items: center;
+  padding: 15px 20px;
+  box-sizing: border-box;
+}
+
+.middle {
+  height: 95px;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 470px;
+}
+
+.idcopy-file-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  height: 180px; /* Adjusted height to fit within the container */
+  border: 1px dashed #e0e0e0;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.idcopy-file-upload-label input {
+  display: none;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #888;
+}
+
+.upload-placeholder img {
+  width: 40px; /* Adjust size */
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.file-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.file-info {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+.idc-footer {
+  width: 380  px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.footer-button2 {
+  width: 80%;
+  height: 50px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #7002FB;
+  border: none;
+  border-radius: 8px;
+}
+
+
+.footer-button2:disabled {
+  background-color: #ccc;
+}
+

@@ -2,26 +2,46 @@
   width: 375px;
   height: 630px;
   margin: auto;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
 }
 
-.header {
+.of-header {
+  width: 100%;
+  height: 50px; /* Fixed header height */
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.of-header-title {
   text-align: center;
-  padding: 20px 0;
+  font-size: 15px;
+  font-weight: bold;
+  color: black;
+  margin-left: 100px;
 }
 
-.header-title {
-  font-size: 17px;
-  font-family: Regular;
-  color: #525252;
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-button img {
+  width: 20px;
+  height: 20px;
+  margin-left: 75px;
 }
 
 .form-container {
-  padding: 20px;
+  padding: 10px 20px;
   background-color: white;
   flex: 1;
   overflow-y: auto;
@@ -29,17 +49,18 @@
   flex-direction: column;
 }
 
-.footer {
+.of-footer {
   background-color: white;
   padding: 10px;
-  border-top: 1px solid #ddd;
   text-align: center;
+  margin-bottom: 15px;
 }
 
-.footer-button {
-  width: 100%;
+.of-footer-button {
+  width: 343px;
+  height: 50px;
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #7002FB;
   color: white;
   border: none;
   border-radius: 4px;
@@ -47,13 +68,10 @@
   font-size: 1em;
 }
 
-.footer-button:disabled {
-  background-color: #a5d6a7;
+.of-footer-button:disabled {
+  background-color: #EAEAEA;
   cursor: not-allowed;
-}
-
-.footer-button:hover:enabled {
-  background-color: #45a049;
+  color: #9B9B9B;
 }
 
 .objection-form {
@@ -61,28 +79,34 @@
 }
 
 .objection-form h2 {
-  margin-top: 20px;
   font-size: 1.2em;
+  color: #333;
 }
 
 .objection-form label {
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 1em;
-}
-
-.required {
-  color: red;
-  margin-right: 5px;
+  color: black;
 }
 
 .gray-background {
   background-color: #f0f0f0;
 }
 
-.objection-form input,
+.objection-form input {
+    width: 310px;
+    padding: 12px;
+    margin-top: 5px;
+    border-bottom: 1px solid #E5E5EC;
+    font-size: 13px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
 .objection-form textarea {
-  width: 100%;
+  width: 310px;
   padding: 12px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -96,6 +120,38 @@
   font-size: 1em;
 }
 
+.phone-number {
+  display: flex;
+  gap: 5px;
+}
+
+.phone-number input.mobileNumber {
+  flex-basis: 25%; /* Smaller width for mobile number box */
+  max-width: 60px; /* You can adjust this as needed */
+  padding: 12px;
+  border-bottom: 1px solid #E5E5EC;
+  font-size: 13px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color: #f0f0f0;
+}
+
+.phone-number input.phoneNumber {
+  flex-basis: 75%; /* Larger width for phone number box */
+  padding: 12px;
+  border-bottom: 1px solid #E5E5EC;
+  font-size: 13px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color: #f0f0f0;
+}
+
+.phone-number span {
+  margin-top: 15px;
+}
+
 .address-label .address-input {
   display: flex;
   align-items: center;
@@ -104,22 +160,28 @@
 .address-input input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-  font-size: 1em;
+  border-bottom: 1px solid #E5E5EC;
+  font-size: 13px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 
 .address-input button {
   width: 50px;
+  height: 44.5px;
   background: none;
-  border: 1px solid #ccc;
+  border: none;
   border-left: none;
-  border-radius: 0 4px 4px 0;
   cursor: pointer;
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.address-label span {
+  font-size: 13px;
+  color: #9B9B9B;
 }
 
 .address-input img {
@@ -131,8 +193,79 @@
   display: flex;
   align-items: center;
   font-size: 1em;
+  color: #333;
 }
 
 .checkbox-container input[type="checkbox"] {
   margin-right: 10px;
+}
+
+.form-label-with-tooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.info-icon {
+  width: 16px;
+  height: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background-color: #eef4ff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  color: #5a02c9;
+  width: 300px;
+}
+
+.objection-reason-textarea {
+  height: 210px; /* Adjust height as needed */
+  width: 310px;
+  border: 1px solid #E5E5EC;
+  font-size: 14px;
+  color: #333;
+  resize: none; /* Prevents resizing */
+}
+
+.objection-confirmation-title {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.objection-confirmation-content {
+  background-color: white;
+  border: 1px solid #E5E5EC;
+  padding: 10px;
+  font-size: 12px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.objection-check {
+  width: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: auto; /* Override the global input width */
+  height: auto; /* Override the global input height */
+  margin-right: 10px; /* Space between checkbox and label */
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.required {
+  color: #7002FB;
 }
