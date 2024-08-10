@@ -1,0 +1,4 @@
+pymilvus==2.2.9
+pdfminer.six==20201018
+sentence-transformers==2.2.2
+huggingface-hub

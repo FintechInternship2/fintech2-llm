@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주소 검색</title>
+</head>
+<body>
+  <div id="popupDom">
+    <div id="popupPostCode"></div>
+  </div>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    function initPostcode() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          let fullAddress = data.address;
+          let extraAddress = '';
+
+          if (data.addressType === 'R') {
+            if (data.bname !== '') {
+              extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+              extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+            }
+            fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+          }
+
+          window.opener.postMessage('주소:' + fullAddress, '*');
+          window.close();
+        }
+      }).embed(document.getElementById('popupPostCode'));
+    }
+    window.onload = initPostcode;
+  </script>
+</body>
+</html>
