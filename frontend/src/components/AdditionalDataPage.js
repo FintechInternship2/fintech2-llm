@@ -10,7 +10,7 @@ const AdditionalDataPage = () => {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState(null);
-
+  
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
     if (selectedFiles.length + files.length > 30) {

@@ -4,6 +4,11 @@ import QuickActionButtons from './QuickActionButtons';
 import BeatLoader from 'react-spinners/BeatLoader'; // Import the BeatLoader
 import sendButtonIcon from '../assets/icons/send_button.svg';
 import uploadIcon from '../assets/icons/upload_icon.svg';
+import arrowIcon from '../assets/icons/arrow_icon.svg'; // 프로필 왼쪽 화살표 아이콘
+import otherIcon from '../assets/icons/other_icon.svg'; // 프로필 더보기 아이콘
+import messageIcon from '../assets/icons/message.svg'; // 메세지 아이콘
+import plusIcon from '../assets/icons/plus.svg'; // 플러스 아이콘
+import logoIcon from '../assets/icons/logo.svg'; // 플러스 아이콘
 import objectionDataStorageIcon from '../assets/icons/objection_data_storage_icon.svg';
 import previousRequestIcon from '../assets/icons/previous_request_icon.svg';
 import chattingStartIcon from '../assets/icons/chatting_start_icon.svg';
@@ -196,10 +201,10 @@ const ChatWindow = () => {
   }, [messages]);
 
   const quickActions = [
-    { title: '이의제기신청서', subtitle: '이의제기', path: '/objection', key: 'objection', message: '이의제기 신청서 작성해줘' },
-    { title: '신분증 사본(필수)', subtitle: '신분증 발급', path: '/id-copy', key: 'idCopy', message: '신분증 사본 제출해줘' },
-    { title: '본인서명', subtitle: '정부24에서', path: '/signature-verification', key: 'signatureVerification', message: '본인서명 사실확인서 제출해줘' },
-    { title: '추가자료제출', subtitle: '내용', path: '/additional-data', key: 'additionalData', message: '추가 자료 제출해줘' },
+    { title: '이의제기신청서', subtitle: '앱 내에서 빠르게 작성하기', path: '/objection', key: 'objection', message: '이의제기 신청서 작성해줘' },
+    { title: '신분증 사본', subtitle: '진위확인용 본인 신분증 첨부', path: '/id-copy', key: 'idCopy', message: '신분증 사본 제출해줘' },
+    { title: '본인 서명사실확인서', subtitle: '정부24에서 파일 다운로드', path: '/signature-verification', key: 'signatureVerification', message: '본인서명 사실확인서 제출해줘' },
+    { title: '증빙자료', subtitle: '재산 현황 및 성실성 증빙 자료', path: '/additional-data', key: 'additionalData', message: '추가 자료 제출해줘' },
   ];
 
   const handleActionClick = (message, path) => { 
@@ -208,8 +213,7 @@ const ChatWindow = () => {
         text: message, 
         fullText: message, 
         typing: false, 
-        name: 'User',
-        isUserSystemMessage: true // 은희꺼랑 합칠 때 시스템 메세지 css 다르게 주는거 확인하기 
+        name: 'User'
     };
     setMessages((prevMessages) => {
       const newMessages = [...prevMessages, userMessage];
@@ -241,11 +245,11 @@ const ChatWindow = () => {
       setMessages((prevMessages) => [...prevMessages, userMessage]);
     }
   };
-
+  //은희꺼랑 합치는데 칩스 분기처리부분
   const handleSendMessage = async (message) => {
     // Trim the message to avoid issues with leading or trailing spaces
+    console.log(message);
     const trimmedMessage = message.trim();
-  
     const userMessage = { type: 'user', text: trimmedMessage, fullText: trimmedMessage, typing: false, name: 'User' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setLoading(true);
@@ -286,82 +290,112 @@ const ChatWindow = () => {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <div className="chat-header-icon">
-          <img src={sendButtonIcon} alt="Chatbot Icon" />
-        </div>
         <div className="chat-header-title">
-          <h1>챗봇</h1>
-          <span>@카카오뱅크</span>
+          <img className="chat-arrow-icon" src={arrowIcon} alt="Arrow Icon" /> 
+          <img className="chat-header-icon" src={logoIcon} alt="Chatbot Icon" /> 
+          <h1>풀다챗</h1> 
+          <div className="chat-other">
+            <img className="chat-other-icon" src={otherIcon} alt="Other Icon" />  
+          </div>
         </div>
       </div>
+
       <div className="chat-body">
-        <div className="chat-message bot">
-          <div className="message">
-            <p>금융거래 제한으로 불편함을 겪고 계신가요? 풀다챗에서 이의제기 서류를 빠르고 간편하게 준비하세요. 아래 필수 서류(이의제기 신청서, 신분증 사본, 본인서명사실확인서)를 제출하면, 실시간 알림을 받을 있습니다. 제출하시려면 본인인증을 먼저해야합니다!</p>
+        <div className='chat-date'>
+          <div className='date'>
+            <p>8월 11일</p>
           </div>
         </div>
-        <QuickActionButtons actions={quickActions} onActionClick={handleActionClick} />
-        {messages.map((message, index) => (
-          <div 
-            key={index} 
-            className={`chat-message ${message.type} ${message.isUserSystemMessage ? 'system-message' : ''}`}
-          >
+        <div className="chat-message bot">
+          <div className="message">
+            <p>금융거래 제한으로 불편함을 겪고 계신가요? ‘풀다챗'에서 이의제기 서류를 빠르고 간편하게 준비하세요. 아래 필수 서류(이의제기 신청서, 신분증 사본, 본인서명사실확인서)를 제출하면, 실시간 알림을 받을 수 있어요!</p>
+          </div>
+        </div>
+
+             {/* Quick Action Buttons */}
+             <QuickActionButtons actions={quickActions} onActionClick={handleActionClick} />
+        
+        {/* Quick Buttons - Moved below QuickActionButtons */}
+        <div className="quick-buttons">
+            <button className="quick-button" onClick={() => handleSendMessage('지급정지해제 절차')}>
+              지급정지해제 절차
+            </button>
+            <button className="quick-button" onClick={() => handleSendMessage('필요 서류 목록')}>
+             필요 서류 목록
+            </button>
+           <button className="quick-button" onClick={() => handleSendMessage('상담원 안내')}>
+              상담원 안내
+            </button>
+            <button className="quick-button" onClick={() => handleSendMessage('증빙자료 예시')}>
+              증빙자료 예시
+            </button>
+            <button className="quick-button" onClick={() => handleSendMessage('지급정지 피해사례')}>
+              지급정지 피해사례
+            </button>
+          </div>
+
+          {messages.map((message, index) => (
+           <div key={index} className={`chat-message ${message.type}`}>
             <div className="message">
               <p>{message.text}</p>
-            </div>
-          </div>
-         ))} {/*퀵액션부터 여기까지가 은희꺼랑 합칠때 봐야하는ㄴ 부분 시스템 메시지 */}
-
+             </div>
+           </div>
+        ))}
         {loading && (
           <div className="chat-message bot">
-            <div className="message">
+            <div className="message_loading">
               <BeatLoader color="#000" loading={true} size={10} margin={2} />
             </div>
           </div>
         )}
+      </div>
         {/* <button onClick={() => resetAction('objection')}>이의제기신청서 리셋</button>
         <button onClick={() => resetAction('idCopy')}>신분증 리셋</button>
         <button onClick={() => resetAction('signatureVerification')}>본인서명 리셋</button>
-        <button onClick={() => resetAction('additionalData')}>추가자료 리셋</button> 테스트하기 위해 각 자료 리셋하렴 주석풀기! */}
-      </div>
+        <button onClick={() => resetAction('additionalData')}>추가자료 리셋</button>  */}
       <div className="chat-footer">
-        <label htmlFor="file-upload" className="file-upload-label">
-          <img src={uploadIcon} alt="Upload Icon" />
-        </label>
-        <input 
-          id="file-upload" 
-          type="file" 
-          style={{ display: 'none' }} 
-          onChange={handleFileUpload} 
-        />
-        <input 
-          type="text" 
-          placeholder="궁금하신 내용을 입력해주세요." 
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') {
-              handleSendMessage(event.target.value);
-              event.target.value = '';
-            }
-          }}
-        />
-        <button 
-          onClick={() => {
-            const input = document.querySelector('.chat-footer input[type="text"]');
-            handleSendMessage(input.value);
-            input.value = '';
-          }}
-        >
-          <img src={sendButtonIcon} alt="Send Icon" />
-        </button>
-         <button onClick={handleResetMessages}>메시지 초기화</button>  
+        <div className="chat-footer-container">
+          <label htmlFor="file-upload" className="file-upload-label">
+           <img src={plusIcon} alt="Upload Icon" />
+          </label>
+         <input 
+           id="file-upload" 
+           type="file" 
+           style={{ display: 'none' }} 
+           onChange={handleFileUpload} 
+         />
+         <input 
+            type="text" 
+            placeholder="궁금하신 내용을 입력해주세요." 
+           onKeyPress={(event) => {
+              if (event.key === 'Enter') {
+                handleSendMessage(event.target.value);
+               event.target.value = '';
+              }
+           }}
+         />
+          <button 
+            onClick={() => {
+              const input = document.querySelector('.chat-footer-container input[type="text"]');
+             handleSendMessage(input.value);
+             input.value = '';
+            }}>
+           <img src={sendButtonIcon} alt="Send Icon" />
+          </button>
+        </div>
       </div>
+
+
+      {/* <button onClick={handleResetMessages}>메시지 초기화</button> */}
+
+
       <div className="navigation-bar">
         <button onClick={() => navigate('/objection-data-storage')}>
           <img src={objectionDataStorageIcon} alt="보관함" />
           <span>보관함</span>
         </button>
         <button onClick={() => navigate('/')}>
-          <img src={chattingStartIcon} alt="채팅" />
+          <img src={messageIcon} alt="채팅" />
           <span>채팅</span>
         </button>
         <button onClick={() => navigate('/previous-request')}>
@@ -372,5 +406,4 @@ const ChatWindow = () => {
     </div>
   );
 };
-
 export default ChatWindow;

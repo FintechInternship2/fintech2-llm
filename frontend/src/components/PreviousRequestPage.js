@@ -1,13 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/PreviousRequestPage.css';
-import GoBackIcon from '../assets/icons/goback_icon.svg'; // Import the custom icon
+import objectionDataStorageIcon from '../assets/icons/locker.svg'; // 보관함 아이콘
+import message2Icon from '../assets/icons/message2.svg'; //보관함 색 아이콘
+import previousIcon from '../assets/icons/previous.svg'; //보관함 색 아이콘
 
 const PreviousRequestPage = () => {
   const navigate = useNavigate();
 
   const requests = [
-    { status: '제출완료', date: '2024-08-08', details: '이의제기신청서 외 3건', id: '2024040101', submittedDate: '2024-08-08' }
+    { status: '제출완료', date: '2024.08.10', details: '이의제기신청서 외 3건', id: '2024040101', submittedDate: '2024-08-08' }
     
   ];
 
@@ -23,31 +25,45 @@ const PreviousRequestPage = () => {
   return (
     <div className="previous-request-page">
       <header className="header">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          <img src={GoBackIcon} alt="Go back" className="back-icon" />
-        </button>
         <h1 className="title">이전 내역</h1>
         <div className="spacer"></div>
       </header>
+
       <div className="status-header">
-        <span className="status-title">전체 {statusCounts.전체}</span>
+        <span className="status-item">제출완료 </span>
+        <span className="status-item">확인중 </span>
+        <span className="status-item">승인완료 </span>
+        <span className="status-item">반려 </span>
+        <span className="status-item">추가서류요청 </span>
       </div>
-      <div className="status-subheader">
-        <span className="status-item">제출완료 {statusCounts.제출완료}</span>
-        <span className="status-item">확인중 {statusCounts.확인중}</span>
-        <span className="status-item">승인완료 {statusCounts.승인완료}</span>
-        <span className="status-item">반려 {statusCounts.반려}</span>
-        <span className="status-item">추가서류요청 {statusCounts.추가서류요청}</span>
-      </div>
+
+
       <hr className="separator" />
+
       <div className="container">
         {requests.map((request, index) => (
           <div key={index} className="request-item">
             <div className="request-status">{request.status} · {request.date}</div>
             <div className="request-details">{request.details}</div>
-            <div className="request-id">접수 번호: {request.id} · 제출완료 {request.submittedDate}</div>
+            <div className="request-id">접수 번호: 00100341· 제출완료: 00100341</div>
           </div>
         ))}
+      </div>
+
+
+      <div className="navigation-bar">
+        <button onClick={() => navigate('/objection-data-storage')}>
+          <img src={objectionDataStorageIcon} alt="보관함" />
+          <span>보관함</span>
+        </button>
+        <button onClick={() => navigate('/')}>
+          <img src={message2Icon} alt="채팅" />
+          <span>채팅</span>
+        </button>
+        <button onClick={() => navigate('/previous-request')}>
+          <img src={previousIcon} alt="이전 내역" />
+          <span>이전 내역</span>
+        </button>
       </div>
     </div>
   );

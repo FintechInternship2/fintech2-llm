@@ -14,7 +14,7 @@ export default function IdentityVerification() {
       alert("전화번호를 입력해주세요.");
       return;
     }
-    alert("OTP 코드가 전송되었습니다. (임의의 6자리 숫자를 입력하세요)");
+    alert("OTP 코드가 전송되었습니다!");
   };
 
   const handleVerifyCode = () => {
@@ -26,7 +26,7 @@ export default function IdentityVerification() {
       alert("유효한 6자리 OTP 코드를 입력해주세요.");
     }
   };
-
+  
   return (
     <div className="identity-verification">
       <header className="iv-header">

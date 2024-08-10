@@ -44,17 +44,19 @@
   color: #888;
 }
 
-.container {
+.osp-container {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #F7F5FF;
+  background: #F7F5FF;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .documents-section {
   width: 100%;
+  color: #000;
 }
 
 .documents-section ul {
@@ -160,12 +162,14 @@
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
+  
 }
 
 .submit-button:disabled {
   background-color: #ddd;
   color: #9B9B9B;
   cursor: not-allowed;
+
 }
 
 .submit-button:hover:enabled {

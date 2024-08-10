@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import '../styles/ObjectionStoragePage.css';
-import GoBackIcon from '../assets/icons/goback_icon.svg'; // Import the custom icon
-import storageIcon from '../assets/icons/objection_data_storage_icon.svg';
-import chattingIcon from '../assets/icons/chatting_start_icon.svg';
-import previousIcon from '../assets/icons/previous_request_icon.svg';
+import previousRequestIcon from '../assets/icons/transfer_data.svg'; // 이전 내역 아이콘
+import folderIcon from '../assets/icons/folder.svg';
+import message2Icon from '../assets/icons/message2.svg'; //보관함 색 아이콘
 
 const ObjectionStoragePage = () => {
   const navigate = useNavigate();
@@ -59,17 +58,23 @@ const ObjectionStoragePage = () => {
   };
 
   return (
-    <div className="objection-storage-page">
+    /**/
+    <div className="objection-storage-page"> 
       <header className="osp-header">
         <h1 className="osp-title">보관함</h1>
         <div className="spacer"></div>
       </header>
+
+
+
       <div className="osp-status-header">
         <span className="osp-status-title">미작성 {incompleteDocuments.length}</span>
         <span className="osp-status-title">작성중 {inProgressDocuments.length}</span>
         <span className="osp-status-title">완료 {completedDocuments.length}</span>
       </div>
-      <div className="container">
+
+
+      <div className="osp-container">
         <section className="documents-section">
           <ul>
             {incompleteDocuments.map(doc => (
@@ -111,21 +116,23 @@ const ObjectionStoragePage = () => {
           className="submit-button"
           onClick={handleSubmit}
           disabled={!allDocumentsCompleted}
-        >
+>
           제출하기
         </button>
       </div>
+
+
       <div className="navigation-bar">
         <button onClick={() => navigate('/objection-data-storage')}>
-          <img src={storageIcon} alt="보관함" />
+          <img src={folderIcon} alt="보관함" />
           <span>보관함</span>
         </button>
         <button onClick={() => navigate('/')}>
-          <img src={chattingIcon} alt="채팅" />
+          <img src={message2Icon} alt="채팅" />
           <span>채팅</span>
         </button>
         <button onClick={() => navigate('/previous-request')}>
-          <img src={previousIcon} alt="이전 내역" />
+          <img src={previousRequestIcon} alt="이전 내역" />
           <span>이전 내역</span>
         </button>
       </div>

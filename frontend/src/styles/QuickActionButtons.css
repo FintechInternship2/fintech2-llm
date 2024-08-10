@@ -1,11 +1,21 @@
 .quick-action-buttons {
-  margin: 20px 0;
+  margin: 10;
 }
 
-.quick-action-title {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 10px;
+.quick-action-title { /*지급제한 해제 필수 서류 제출하기*/
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: -0.025em;
+  color: #430197;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.quick-action-title img {
+  margin-right: 4px; /* Adjust space between icon and title */
 }
 
 .quick-action-slider {
@@ -20,18 +30,28 @@
 
 .quick-action-button {
   flex: 0 0 auto;
+  width: 120px;
+  height: 54px; 
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
+  /* border: 2px solid #430197; 선택된 상태의 테두리 색상 */
   border-radius: 10px;
-  padding: 10px;
+  padding: 12px 8px;
   text-align: left;
   font-size: 12px;
   cursor: pointer;
-  white-space: nowrap;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-direction: row;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.quick-action-button.selected {
+  border: 2px solid #430197; /* 선택된 상태의 테두리 색상 */
+}
+
+.quick-action-button.wide-button {
+  width: 140px;  /* 특정 버튼의 너비 */
 }
 
 .quick-action-icon {
@@ -40,6 +60,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+
 }
 
 .quick-action-icon img {
@@ -49,14 +71,28 @@
 
 .quick-action-text {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* 제목과 부제목이 세로로 정렬되도록 설정 */
+  align-items: flex-start;
+  word-wrap: break-word;
+  flex-shrink: 1;
 }
 
 .quick-action-text strong {
   font-size: 14px;
+  margin-bottom: 4px;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 .quick-action-text span {
   font-size: 12px;
   color: #888;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex-grow: 1; /* span이 가능한 공간을 차지하도록 설정 */
+  display: block; /* strong 아래에서 시작하도록 블록 요소로 설정 */
+  line-height: 1.2; 
+  white-space: normal; /* 텍스트가 줄바꿈되도록 설정 */
+  word-break: keep-all; 
 }
