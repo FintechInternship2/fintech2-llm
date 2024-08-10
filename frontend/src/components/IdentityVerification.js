@@ -7,7 +7,7 @@ export default function IdentityVerification() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const { authenticate } = useAuth();
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handleSendCode = () => {
     if (!phoneNumber) {
@@ -20,8 +20,8 @@ export default function IdentityVerification() {
   const handleVerifyCode = () => {
     if (otp.length === 6) {
       alert("본인인증이 완료되었습니다.");
-      authenticate(); // 본인인증 완료 처리
-      navigate('/'); // 본인인증 후 메인 화면으로 이동
+      authenticate();
+      navigate('/');
     } else {
       alert("유효한 6자리 OTP 코드를 입력해주세요.");
     }
@@ -29,20 +29,33 @@ export default function IdentityVerification() {
 
   return (
     <div className="identity-verification">
-      <input
-        type="text"
-        placeholder="전화번호 입력"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-      />
-      <button onClick={handleSendCode} id="sign-in-button">코드 전송</button>
-      <input
-        type="text"
-        placeholder="OTP 입력"
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-      />
-      <button onClick={handleVerifyCode}>본인인증</button>
+      <header className="iv-header">
+        <p>간편인증</p>
+        <button className="iv-close-button" onClick={() => navigate(-1)}>✕</button>
+      </header>
+      <div className="input-group-container1">
+        <label className="input-label">연락처</label>
+        <div className="input-group1">
+          <input type="text" placeholder="- 없이 숫자만 입력" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+          <button onClick={handleSendCode} className="send-code-button" disabled={!phoneNumber}>
+            인증번호 발송
+          </button>
+        </div>
+      </div>
+      <div className="input-group-container2">
+        <label className="input-label">OTP 입력</label>
+        <div className="input-group2">
+          <input
+            type="text"
+            placeholder="인증번호 6자리 입력"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+          />
+        </div>
+      </div>
+      <button onClick={handleVerifyCode} className="verify-button" disabled={otp.length !== 6}>
+        인증 완료
+      </button>
     </div>
   );
 }

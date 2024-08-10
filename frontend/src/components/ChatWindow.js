@@ -10,6 +10,11 @@ import chattingStartIcon from '../assets/icons/chatting_start_icon.svg';
 import '../styles/ChatWindow.css';
 import { useAuth } from '../AuthContext';
 import { sendMessageToChatbot } from '../api/chatbot';
+import { sendMessageToChatbot_procedure } from '../api/chatbot';
+import { sendMessageToChatbot_document } from '../api/chatbot';
+import { sendMessageToChatbot_call } from '../api/chatbot';
+import { sendMessageToChatbot_prove_example } from '../api/chatbot';
+import { sendMessageToChatbot_stop_example } from '../api/chatbot';
 
 const ChatWindow = () => {
   const navigate = useNavigate();
@@ -238,13 +243,37 @@ const ChatWindow = () => {
   };
 
   const handleSendMessage = async (message) => {
-    const userMessage = { type: 'user', text: message, fullText: message, typing: false, name: 'User' };
+    // Trim the message to avoid issues with leading or trailing spaces
+    const trimmedMessage = message.trim();
+  
+    const userMessage = { type: 'user', text: trimmedMessage, fullText: trimmedMessage, typing: false, name: 'User' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setLoading(true);
-
+  
     try {
-      const botResponse = await sendMessageToChatbot(message);
-      const botMessage = { type: 'bot', text: '', fullText: botResponse, typing: true, name: 'ChatBot' };
+      let botResponse;
+      if (trimmedMessage === '지급정지해제 절차') {
+        const userprompt = '지급정지해제 절차에 대해서 알려드리겠습니다! 지급정지해제는 이의제기신청 서류접수 - 금융기관 확인 - 금융감독원 검토를 거쳐 수용결과가 안내됩니다. 서류 제출 후 검토까지 최대 2주 정도 소요될 수 있습니다. ';
+        botResponse = await sendMessageToChatbot_procedure(trimmedMessage, userprompt);
+      } 
+      else if (trimmedMessage === '필요 서류 목록') {
+        const userprompt = '이의제기 신청을 위해선 이의제기신청서 - 증빙자료 - 신분증 사본 - 본인서명사실확인서를 필수로 제출하세요';
+        botResponse = await sendMessageToChatbot_document(trimmedMessage, userprompt);
+      }
+      else if (trimmedMessage === '상담원 안내') {
+        botResponse = await sendMessageToChatbot_call(trimmedMessage);
+      }
+      else if (trimmedMessage === '증빙자료 예시') {
+        botResponse = await sendMessageToChatbot_prove_example(trimmedMessage);
+      }
+      else if (trimmedMessage === '지급정지 피해사례') {
+        botResponse = await sendMessageToChatbot_stop_example(trimmedMessage);
+      }
+      else {
+        botResponse = await sendMessageToChatbot(trimmedMessage);
+      }
+      const formattedBotResponse = botResponse.replace(/\n/g, '<br>');
+      const botMessage = { type: 'bot', text: '', fullText: formattedBotResponse, typing: true, name: 'ChatBot' };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -252,6 +281,7 @@ const ChatWindow = () => {
       setLoading(false); // Ensure loading is set to false after the response is received
     }
   };
+  
 
   return (
     <div className="chat-window">
@@ -323,7 +353,7 @@ const ChatWindow = () => {
         >
           <img src={sendButtonIcon} alt="Send Icon" />
         </button>
-         {/* <button onClick={handleResetMessages}>메시지 초기화</button> 테스트하기 위해 메시지 초기화하려면 주석풀기!  */}
+         <button onClick={handleResetMessages}>메시지 초기화</button>  
       </div>
       <div className="navigation-bar">
         <button onClick={() => navigate('/objection-data-storage')}>
