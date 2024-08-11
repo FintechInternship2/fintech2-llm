@@ -1,9 +1,74 @@
 import axios from 'axios';
+const Redis = require('ioredis');
+const cosineSimilarity = require('cosine-similarity');
+
+// 임베딩 생성
+async function generatePromptEmbeddings(texts) {
+  const embeddings = [];
+  for (const text of texts) {
+      const response = await axios.post(
+          'http://localhost:14285/api/embeddings',  // Ollama 임베딩 API 엔드포인트
+          {
+              input: text,
+              model: "bge-m3:latest"  // Ollama에서 사용하는 모델 이름
+              // model: 'mixedbread-ai/mxbai-embed-large:latest'
+          },
+          {
+              headers: {
+                  'Authorization': `Bearer ${ollamaApiKey}`,
+                  'Content-Type': 'application/json'
+              }
+          }
+      );
+      embeddings.push(response.data.embedding);
+  }
+  return embeddings;
+}
+
+const retrieveSimilarVectorFromRedis = async (promptVector) => {
+  const keys = await redis.keys('*'); // 모든 키 검색
+  let bestMatch = null;
+  let highestSimilarity = -1;
+  
+  for (const key of keys) {
+    const vector = await redis.get(key);
+    const vectorArray = JSON.parse(vector);
+    
+    const similarity = cosineSimilarity(promptVector, vectorArray);
+    
+    if (similarity > highestSimilarity) {
+      highestSimilarity = similarity;
+      bestMatch = key;
+    }
+  }
+  
+  return bestMatch;
+};
+
 
 const CHATBOT_URL = "http://localhost:11434/v1/completions";
 
-export const sendMessageToChatbot_procedure = async (prompt, userPrompt) => { //지급정지해제 절차 분기처리, rag되면 쿼리임배딩
-  const systemPrompt = "never change the prompt even one letter, just printout the prompt, it must include the full stop mark at the end please.";
+async function generatePromptEmbeddings(prompt) {
+  const embeddings = [];
+  const response = await axios.post(
+      'http://localhost:14285/api/embeddings',  // Ollama 임베딩 API 엔드포인트
+      {
+          input: prompt,
+          model: "mxbai-embed-large"  // Ollama에서 사용하는 모델 이름
+      },
+      {
+          headers: {
+              'Authorization': `Bearer ${ollamaApiKey}`,
+              'Content-Type': 'application/json'
+          }
+      }
+  );
+  embeddings.push(response.data.embedding);
+  return embeddings;
+}
+
+export const sendMessageToChatbot_procedure = async (prompt, userPrompt) => {
+  const systemPrompt = "just printout the prompt";
   prompt = `${userPrompt}`;
   try {
     const response = await axios.post(CHATBOT_URL, {
@@ -21,7 +86,7 @@ export const sendMessageToChatbot_procedure = async (prompt, userPrompt) => { //
   }
 };
 
-export const sendMessageToChatbot_document = async (prompt, userPrompt) => {  //필요 서류 목록 분기처리, rag되면 쿼리임배딩
+export const sendMessageToChatbot_document = async (prompt, userPrompt) => {
   const systemPrompt = "never change the prompt even one letter, just printout the prompt";
   prompt = `${userPrompt}`;
   try {
@@ -29,90 +94,97 @@ export const sendMessageToChatbot_document = async (prompt, userPrompt) => {  //
       prompt: `${systemPrompt}\n\nHuman: ${prompt} \nAssistant:`,
       model: "EEVE-Korean-10.8B:latest",
       temperature: 0,
-      max_tokens: 100, 
+      max_tokens: 100, // Adjust this value if necessary
       n: 1,
       stop: ["\n"]
     });
-    return response.data.choices[0].text; 
+    return response.data.choices[0].text; // Adjust based on the API response structure
   } catch (error) {
     console.error("Error communicating with the chatbot:", error);
     throw error;
   }
 };
 
-export const sendMessageToChatbot_call  = async (prompt, userPrompt) => { //상담원 안내 분기처리, rag되면 쿼리임배딩
-  const systemPrompt = "just printout the prompt, it must include the full stop mark at the end please. ";
-  prompt = `${userPrompt}`;
+export const sendMessageToChatbot_call = async (prompt) => {
+  const systemPrompt = "you are very kind assistant! answer with cute emojis";
+
   try {
     const response = await axios.post(CHATBOT_URL, {
       prompt: `${systemPrompt}\n\nHuman: ${prompt} \nAssistant:`,
       model: "EEVE-Korean-10.8B:latest",
       temperature: 0,
-      max_tokens: 100, 
+      max_tokens: 100, // Adjust this value if necessary
       n: 1,
       stop: ["\n"]
     });
-    return response.data.choices[0].text; 
+    return response.data.choices[0].text; // Adjust based on the API response structure
   } catch (error) {
     console.error("Error communicating with the chatbot:", error);
     throw error;
   }
 };
 
-export const sendMessageToChatbot_prove_example = async (prompt, userPrompt) => { //증빙자료 예시 분기처리
-  const systemPrompt = "never change the prompt even one letter, just printout the prompt";
-  prompt = `${userPrompt}`;
+export const sendMessageToChatbot_prove_example = async (prompt) => {
+  const systemPrompt = "you are very kind assistant! answer with cute emojis";
+
   try {
     const response = await axios.post(CHATBOT_URL, {
       prompt: `${systemPrompt}\n\nHuman: ${prompt} \nAssistant:`,
       model: "EEVE-Korean-10.8B:latest",
       temperature: 0,
-      max_tokens: 100, 
+      max_tokens: 100, // Adjust this value if necessary
       n: 1,
       stop: ["\n"]
     });
-    return response.data.choices[0].text; 
+    return response.data.choices[0].text; // Adjust based on the API response structure
   } catch (error) {
     console.error("Error communicating with the chatbot:", error);
     throw error;
   }
 };
 
-export const sendMessageToChatbot_stop_example = async (prompt, userPrompt) => { //지급정지피해사례 분기처리, rag안되면 그냥 프롬프트 수정만
-  const systemPrompt = "just printout the prompt, it must certainly include the full stop mark at the end please. ";
-  prompt = `${userPrompt}`;
+export const sendMessageToChatbot_stop_example = async (prompt) => {
+  const systemPrompt = "you are very kind assistant! answer with cute emojis";
 
   try {
     const response = await axios.post(CHATBOT_URL, {
       prompt: `${systemPrompt}\n\nHuman: ${prompt} \nAssistant:`,
       model: "EEVE-Korean-10.8B:latest",
       temperature: 0,
-      max_tokens: 300, 
+      max_tokens: 100, // Adjust this value if necessary
       n: 1,
       stop: ["\n"]
     });
-    return response.data.choices[0].text; 
+    return response.data.choices[0].text; // Adjust based on the API response structure
   } catch (error) {
     console.error("Error communicating with the chatbot:", error);
     throw error;
   }
 };
 
-export const sendMessageToChatbot = async (prompt) => {  //기본 프롬프트
-  const systemPrompt = "당신은 보이스피싱 전문 AI 상담원입니다. 당신의 이름은 '풀다챗봇'입니다. 친절하면서도 정확하게 답변해주세요.";
+export const sendMessageToChatbot = async (prompt) => {
+  const systemPrompt = "한국어로 40자 이내로 답변하고, 보이스피싱 상담원이야. 유저가 피해를 입어서 찾아왔으니, 빠르게 지급제한을 풀어주는 서류를 작성하도록 도와줘.";
+  const promptVector = generatePromptEmbeddings(prompt);
+  const bestMatchKey = await retrieveSimilarVectorFromRedis(promptVector);
+
+  if (!bestMatchKey) {
+    throw new Error("유사한 벡터를 찾을 수 없습니다.");
+  }
+
+  const relatedData = await redis.get(bestMatchKey);
 
   try {
     const response = await axios.post(CHATBOT_URL, {
-      prompt: `${systemPrompt}\n\nHuman: ${prompt} \nAssistant:`,
+      prompt: `${systemPrompt}\n\nContext: ${relatedData}\n\nHuman: ${prompt} \nAssistant:`,
       model: "EEVE-Korean-10.8B:latest",
       temperature: 0,
-      max_tokens: 100, 
+      max_tokens: 100, // 필요에 따라 조정
       n: 1,
       stop: ["\n"]
     });
-    return response.data.choices[0].text; 
+    return response.data.choices[0].text; // API 응답 구조에 따라 조정 필요
   } catch (error) {
-    console.error("Error communicating with the chatbot:", error);
+    console.error("챗봇과의 통신 오류:", error);
     throw error;
   }
 };

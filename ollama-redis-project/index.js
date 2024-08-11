@@ -1,3 +1,5 @@
+ollama-redis-project/index.js
+
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs').promises; // 파일 시스템에 접근하기 위해 fs.promises 사용
