@@ -1,6 +1,20 @@
 import axios from 'axios';
-const Redis = require('ioredis');
-const cosineSimilarity = require('cosine-similarity');
+import { createClient } from 'redis';
+
+const CHATBOT_URL = "http://localhost:11434/v1/completions";
+const ollamaApiKey = process.env.OLLAMA_API_KEY;
+const redis = createClient();  // Redis 클라이언트 생성
+
+redis.on('error', (err) => console.log('Redis Client Error', err));
+
+await redis.connect();  // Redis 서버에 연결
+
+function cosineSimilarity(a, b) {
+  const dotProduct = a.reduce((sum, ai, i) => sum + ai * b[i], 0);
+  const normA = Math.sqrt(a.reduce((sum, ai) => sum + ai * ai, 0));
+  const normB = Math.sqrt(b.reduce((sum, bi) => sum + bi * bi, 0));
+  return dotProduct / (normA * normB);
+}
 
 // 임베딩 생성
 async function generatePromptEmbeddings(texts) {
@@ -11,7 +25,6 @@ async function generatePromptEmbeddings(texts) {
           {
               input: text,
               model: "bge-m3:latest"  // Ollama에서 사용하는 모델 이름
-              // model: 'mixedbread-ai/mxbai-embed-large:latest'
           },
           {
               headers: {
@@ -25,6 +38,7 @@ async function generatePromptEmbeddings(texts) {
   return embeddings;
 }
 
+// 코사인 유사도 검사 후 top-1 리턴
 const retrieveSimilarVectorFromRedis = async (promptVector) => {
   const keys = await redis.keys('*'); // 모든 키 검색
   let bestMatch = null;
@@ -45,27 +59,6 @@ const retrieveSimilarVectorFromRedis = async (promptVector) => {
   return bestMatch;
 };
 
-
-const CHATBOT_URL = "http://localhost:11434/v1/completions";
-
-async function generatePromptEmbeddings(prompt) {
-  const embeddings = [];
-  const response = await axios.post(
-      'http://localhost:14285/api/embeddings',  // Ollama 임베딩 API 엔드포인트
-      {
-          input: prompt,
-          model: "mxbai-embed-large"  // Ollama에서 사용하는 모델 이름
-      },
-      {
-          headers: {
-              'Authorization': `Bearer ${ollamaApiKey}`,
-              'Content-Type': 'application/json'
-          }
-      }
-  );
-  embeddings.push(response.data.embedding);
-  return embeddings;
-}
 
 export const sendMessageToChatbot_procedure = async (prompt, userPrompt) => {
   const systemPrompt = "just printout the prompt";
@@ -168,7 +161,15 @@ export const sendMessageToChatbot = async (prompt) => {
   const bestMatchKey = await retrieveSimilarVectorFromRedis(promptVector);
 
   if (!bestMatchKey) {
-    throw new Error("유사한 벡터를 찾을 수 없습니다.");
+    const response = await axios.post(CHATBOT_URL, {
+      prompt: `${systemPrompt}\n\n \n\nHuman: ${prompt} \nAssistant:`,
+      model: "EEVE-Korean-10.8B:latest",
+      temperature: 0,
+      max_tokens: 100, // 필요에 따라 조정
+      n: 1,
+      stop: ["\n"]
+    });
+    return response.data.choices[0].text;
   }
 
   const relatedData = await redis.get(bestMatchKey);

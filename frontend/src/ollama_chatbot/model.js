@@ -1,8 +1,7 @@
 import { OpenAI } from "@langchain/openai";
 import axios from 'axios';
 
-// const CHATBOT_URL = "http://localhost:11434/v1/completions"; // Adjust this to your server's URL
-const CHATBOT_URL = 'https://1d1f-125-131-231-221.ngrok-free.app'
+const CHATBOT_URL = "http://localhost:11434/v1/completions"; // Adjust this to your server's URL
 
 const customFetch = async (url, options) => {
   const response = await axios({

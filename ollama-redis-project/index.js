@@ -1,5 +1,3 @@
-ollama-redis-project/index.js
-
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs').promises; // 파일 시스템에 접근하기 위해 fs.promises 사용
@@ -99,21 +97,6 @@ async function generateEmbeddings(texts) {
     return embeddings;
 }
 
-// async function generateEmbeddings(docs) {
-//     const response = await axios.post('http://localhost:14285/api/embeddings', 
-//     {
-//         model: 'mixedbread-ai/mxbai-embed-large-v1',
-//         input: docs
-//     }, {
-//         headers: {
-//             'Authorization': `Bearer ${ollamaApiKey}`,
-//             'Content-Type': 'application/json'
-//         }
-//     });
-
-//     return response.data.data.map(item => item.embedding);
-// }
-
 
 // Redis에 데이터 저장
 async function saveToRedis(ids, embeddings) {
@@ -156,13 +139,11 @@ async function saveToRedis(ids, embeddings) {
             const chunkSize = 300;
             const chunkOverlap = 20;
             const chunks = splitText(fullText, chunkSize, chunkOverlap);
-            console.log(chunks)
 
             // 임베딩 생성
             const texts = chunks.map(chunk => chunk.text);
             console.log(texts)
             const embeddings = await generateEmbeddings(texts);
-            // console.log(embeddings)
 
             // Redis에 저장
             const ids = chunks.map((_, index) => `${url}_chunk_${index}`);
