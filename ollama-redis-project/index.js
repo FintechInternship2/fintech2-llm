@@ -37,19 +37,18 @@ function splitText(text, chunkSize, chunkOverlap) {
     return chunks;
 }
 
-// PDF 파일에서 텍스트 추출
-async function extractTextFromPdf(pdfUrl) {
-    const response = await axios.get(pdfUrl, { responseType: 'arraybuffer' });
-    const dataBuffer = Buffer.from(response.data);
+async function extractTextFromPdf(pdfPath) {
+    const dataBuffer = await fs.readFile(pdfPath); // Read the local PDF file
     const data = await pdf(dataBuffer);
     return data.text;
 }
 
-// TXT 파일에서 텍스트 추출 (수정된 부분)
+// TXT 파일에서 텍스트 추출
 async function extractTextFromTxt(txtPath) {
     const data = await fs.readFile(txtPath, 'utf-8'); // 로컬 파일 읽기
     return data;
 }
+
 
 // 웹 페이지에서 텍스트 추출
 async function extractTextFromHtml(htmlUrl) {
@@ -83,7 +82,8 @@ async function generateEmbeddings(texts) {
             'http://localhost:14285/api/embeddings',  // Ollama 임베딩 API 엔드포인트
             {
                 input: text,
-                model: "mxbai-embed-large"  // Ollama에서 사용하는 모델 이름
+                model: "bge-m3:latest"  // Ollama에서 사용하는 모델 이름
+                // model: 'mixedbread-ai/mxbai-embed-large:latest'
             },
             {
                 headers: {
@@ -97,6 +97,22 @@ async function generateEmbeddings(texts) {
     return embeddings;
 }
 
+// async function generateEmbeddings(docs) {
+//     const response = await axios.post('http://localhost:14285/api/embeddings', 
+//     {
+//         model: 'mixedbread-ai/mxbai-embed-large-v1',
+//         input: docs
+//     }, {
+//         headers: {
+//             'Authorization': `Bearer ${ollamaApiKey}`,
+//             'Content-Type': 'application/json'
+//         }
+//     });
+
+//     return response.data.data.map(item => item.embedding);
+// }
+
+
 // Redis에 데이터 저장
 async function saveToRedis(ids, embeddings) {
     if (!client.isOpen) { // Redis 클라이언트가 열려 있는지 확인
@@ -104,13 +120,15 @@ async function saveToRedis(ids, embeddings) {
     }
 
     for (let i = 0; i < ids.length; i++) {
-        await client.hSet(indexName, ids[i], JSON.stringify(embeddings[i]));
+        // Redis의 각 key에 대해 JSON 문자열로 저장
+        await client.set(ids[i], JSON.stringify(embeddings[i]));
     }
 
     if (client.isOpen) { // 작업이 끝난 후 연결이 열려 있다면 종료
         await client.quit();
     }
 }
+
 
 // 주요 처리 함수
 (async () => {
@@ -136,10 +154,13 @@ async function saveToRedis(ids, embeddings) {
             const chunkSize = 300;
             const chunkOverlap = 20;
             const chunks = splitText(fullText, chunkSize, chunkOverlap);
+            console.log(chunks)
 
             // 임베딩 생성
             const texts = chunks.map(chunk => chunk.text);
+            console.log(texts)
             const embeddings = await generateEmbeddings(texts);
+            // console.log(embeddings)
 
             // Redis에 저장
             const ids = chunks.map((_, index) => `${url}_chunk_${index}`);
