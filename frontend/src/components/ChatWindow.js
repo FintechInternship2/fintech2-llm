@@ -245,7 +245,6 @@ const ChatWindow = () => {
       setMessages((prevMessages) => [...prevMessages, userMessage]);
     }
   };
-  //은희꺼랑 합치는데 칩스 분기처리부분
   const handleSendMessage = async (message) => {
     // Trim the message to avoid issues with leading or trailing spaces
     console.log(message);
@@ -257,21 +256,24 @@ const ChatWindow = () => {
     try {
       let botResponse;
       if (trimmedMessage === '지급정지해제 절차') {
-        const userprompt = '지급정지해제 절차에 대해서 알려드리겠습니다! 지급정지해제는 이의제기신청 서류접수 - 금융기관 확인 - 금융감독원 검토를 거쳐 수용결과가 안내됩니다. 서류 제출 후 검토까지 최대 2주 정도 소요될 수 있습니다. ';
+        const userprompt = '지급정지해제를 위한 이의제기 신청 절차는 필수 서류 작성, 서류접수, 금융기관 확인, 금융감독원 검토를 이후 결과 알려드립니다. 승인 완료 시, 1시간 이내 지급정지가 정상적으로 해제됩니다. ';
         botResponse = await sendMessageToChatbot_procedure(trimmedMessage, userprompt);
       } 
       else if (trimmedMessage === '필요 서류 목록') {
-        const userprompt = '이의제기 신청을 위해선 이의제기신청서 - 증빙자료 - 신분증 사본 - 본인서명사실확인서를 필수로 제출하세요';
+        const userprompt = '이의제기 신청을 위해선 이의제기신청서 - 증빙자료 - 신분증 사본 - 본인서명사실확인서를 필수로 제출하세요. ';
         botResponse = await sendMessageToChatbot_document(trimmedMessage, userprompt);
       }
-      else if (trimmedMessage === '상담원 안내') {
-        botResponse = await sendMessageToChatbot_call(trimmedMessage);
+      else if (trimmedMessage === '고객센터 연결') {
+        const userprompt = '사고 신고 접수 카카오뱅크 고객센터 운영시간을 안내해드리겠습니다. 유선연락: 1599-8888 운영시간: 365일 24시간 - \'지급해제 정지\' 관련 접수는 주말 중에도 가능합니다. 그러나 해제 절차는 은행 영업 시간 내에만 가능합니다. ';
+        botResponse = await sendMessageToChatbot_call(trimmedMessage, userprompt);
       }
       else if (trimmedMessage === '증빙자료 예시') {
-        botResponse = await sendMessageToChatbot_prove_example(trimmedMessage);
+        const userprompt = '지급정지해제를 위한 증빙사례가 궁금하시다면, 대화창에 사례를 작성해주시거나 문서, 파일을 첨부해주시면 비슷한 사례를 알려드려요. 텍스트, PDF, JPG 형태의 파일만 첨부가능합니다. ';
+        botResponse = await sendMessageToChatbot_prove_example(trimmedMessage, userprompt);
       }
       else if (trimmedMessage === '지급정지 피해사례') {
-        botResponse = await sendMessageToChatbot_stop_example(trimmedMessage);
+        const userprompt = '지급정지는 은행이나 금융 기관이 고객의 계좌에서 특정 거래를 차단하거나 보류하는 것을 말합니다.고객이 사기, 도난 또는 기타 의심스러운 활동에 연루되었다고 판단될 경우 지급정지가 될 수 있습니다. 최근 \'지급정지\' 제도를 악용한 신종 보이스피싱 사기로 인해 무관한 고객의 계좌가 지급정지되는 경우가 있습니다. 지급 정지 계좌는 모든 금융거래가 제한되어 청구서 납부, 직불카드 사용, 자동이체 등을 할 수 없습니다. 따라서 신속하게 은행 고객센터에 이의제기신청서를 제출해야 합니다. ';
+        botResponse = await sendMessageToChatbot_stop_example(trimmedMessage, userprompt);
       }
       else {
         botResponse = await sendMessageToChatbot(trimmedMessage);
@@ -323,8 +325,8 @@ const ChatWindow = () => {
             <button className="quick-button" onClick={() => handleSendMessage('필요 서류 목록')}>
              필요 서류 목록
             </button>
-           <button className="quick-button" onClick={() => handleSendMessage('상담원 안내')}>
-              상담원 안내
+           <button className="quick-button" onClick={() => handleSendMessage('고객센터 연결')}>
+              고객센터 연결
             </button>
             <button className="quick-button" onClick={() => handleSendMessage('증빙자료 예시')}>
               증빙자료 예시
