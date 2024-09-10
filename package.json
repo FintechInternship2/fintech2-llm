@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "@llm-tools/embedjs": "^0.0.95",
+    "express": "^4.19.2",
+    "ioredis": "^5.4.1"
   }
 }

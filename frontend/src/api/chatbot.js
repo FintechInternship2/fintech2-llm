@@ -3,6 +3,10 @@ import { createClient } from 'redis';
 
 const CHATBOT_URL = "http://localhost:11434/v1/completions";
 const ollamaApiKey = process.env.OLLAMA_API_KEY;
+
+const HF_EMBEDDING_API_URL = 'https://api-inference.huggingface.co/models/bge-m3'; 
+const hfApiKey = process.env.HF_API_KEY;
+
 const redis = createClient();  // Redis 클라이언트 생성
 
 redis.on('error', (err) => console.log('Redis Client Error', err));
@@ -21,14 +25,14 @@ async function generatePromptEmbeddings(texts) {
   const embeddings = [];
   for (const text of texts) {
       const response = await axios.post(
-          'http://localhost:14285/api/embeddings',  // Ollama 임베딩 API 엔드포인트
+        HF_EMBEDDING_API_URL,  // Ollama 임베딩 API 엔드포인트
           {
               input: text,
               model: "bge-m3:latest"  // Ollama에서 사용하는 모델 이름
           },
           {
               headers: {
-                  'Authorization': `Bearer ${ollamaApiKey}`,
+                  'Authorization': `Bearer ${hfApiKey}`,
                   'Content-Type': 'application/json'
               }
           }
